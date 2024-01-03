@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import axios from 'axios';
 
 
-const login = () => {
+const register = () => {
 
     const [ email, setEmail ] = useState('drigdark.poubelle@gmail.com');
     const [ password, setPassword ] = useState('password');
@@ -117,7 +117,7 @@ const login = () => {
   )
 }
 
-export default login
+export default register
 
 const styles = StyleSheet.create({
     inputContainer:{

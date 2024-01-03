@@ -5,6 +5,7 @@ const cors = require("cors");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const punycode = require("punycode/");
+const jwt = require("jsonwebtoken");
 const app = express();
 const port = 8002;
 
@@ -58,13 +59,10 @@ app.post("/register", async (req, res) => {
 
     // Send verification email
     await verificationEmailTemplate(newUser.email, newUser.verificationToken);
-    res
-      .status(202)
-      .json({
-        message:
-          "Registration successful, Please check your email for verification",
-      });
-
+    res.status(202).json({
+      message:
+        "Registration successful, Please check your email for verification",
+    });
   } catch (err) {
     console.log("[SERV] Error register user", err);
     res.status(500).json({ message: "Internal Server error" });
@@ -96,9 +94,6 @@ const verificationEmailTemplate = async (email, verificationToken) => {
   } catch (err) {
     console.log("[SERV] Error sending email verification", err);
   }
-
-
-
 };
 
 // endpoint to verify email
@@ -109,8 +104,8 @@ app.get("/verify-email/:token", async (req, res) => {
 
     const user = await User.findOne({ verificationToken: token });
     if (!user) {
-        console.log("[SERV] Invalid token");
-        return res.status(400).json({ message: "Invalid token" });
+      console.log("[SERV] Invalid token");
+      return res.status(400).json({ message: "Invalid token" });
     }
     // user is verified
     user.verified = true;
@@ -123,36 +118,92 @@ app.get("/verify-email/:token", async (req, res) => {
   }
 });
 
+const generateSecretKey = () => {
+  const secretKey = crypto.randomBytes(32).toString("hex");
+  return secretKey;
+};
+
+const secretKey = generateSecretKey();
 
 // endpoint to login a user
 
 app.post("/login", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-    
-        // check if user exists
-        const user = await User.findOne({ email });
-        if (!user) {
-        console.log("[SERV] User does not exist");
-        return res.status(400).json({ message: "User does not exist" });
-        }
-    
-        // check if password is correct
-        if (password !== user.password) {
-        console.log("[SERV] Password is incorrect");
-        return res.status(401).json({ message: "Password is incorrect" });
-        }
-    
-        // check if user is verified
-        if (!user.verified) {
-        console.log("[SERV] User is not verified");
-        return res.status(402).json({ message: "User is not verified" });
-        }
-    
-        // login successful
-        res.status(200).json({ message: "Login successful" });
-    } catch (err) {
-        console.log("[SERV] Error login user", err);
-        res.status(500).json({ message: "Internal Server error" });
+  try {
+    const { email, password } = req.body;
+
+    // check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.log("[SERV] User does not exist");
+      return res.status(400).json({ message: "User does not exist" });
     }
+    // check if password is correct
+    if (password !== user.password) {
+      console.log("[SERV] Password is incorrect");
+      return res.status(401).json({ message: "Password is incorrect" });
+    }
+
+    // check if user is verified
+    if (!user.verified) {
+      console.log("[SERV] User is not verified");
+      return res.status(402).json({ message: "User is not verified" });
+    }
+
+    // login successful
+    const token = jwt.sign({ userId: user._id }, secretKey);
+    res.status(200).json({ token });
+  } catch (err) {
+    console.log("[SERV] Error login user", err);
+    res.status(500).json({ message: "Internal Server error" });
+  }
+});
+
+// user profile
+
+app.get("/profile/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      console.log("[SERV] User not found");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user });
+  } catch (err) {
+    console.log("[SERV] Error user profile", err);
+    res.status(504).json({ message: "Internal Server error" });
+  }
+});
+
+// all other users
+
+app.get("/users/:userId", async (req, res) => {
+  try {
+    const loggedUsersId = req.params.userId;
+
+    const loggInUser = await User.findById(loggedUsersId).populate(
+      "connections",
+      "_id"
+    );
+    if (!loggInUser) {
+      console.log("[SERV] User not found");
+      return res.status(404).json({ message: "User not found" });
+    }
+    // get the ID's of the connected users
+    const connectedUsersIds = loggInUser.connections.map(
+      (connection) => connection._id
+    );
+
+    // find the users who are not connected to the logged-in user Id
+    const users = await User.find({
+      _id: { $ne: loggedUsersId, $nin: connectedUsersIds },
+    });
+
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(505).json({ message: "Internal Server error" });
+  }
 });

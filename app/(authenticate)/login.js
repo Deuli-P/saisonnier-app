@@ -7,27 +7,38 @@ import {
   Text,
   TextInput,
   View,
+  Alert
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("drigdark.poubelle@gmail.com");
+  const [password, setPassword] = useState("password");
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
+  const routerHome = () => {
+    router.replace("/(tabs)/home");
+  }
+
+
+
+  const handleLogin = useCallback(() => {
     try{
       const user = {
         email: email,
         password: password,
       };
-      console.log("[LOGIN] user est:", user);
+      console.log("[LOGIN] User est:", user);
       axios.post("http://localhost:8002/login", user)
       .then((res) => {
-        console.log(res);
+        const token = res.data.token;
+        AsyncStorage.setItem("authToken", token);
+        routerHome()
         Alert.alert("Login successful");
         setEmail("");
         setPassword("");
@@ -40,7 +51,22 @@ const login = () => {
     catch(err){
 
     }
-  }
+  }, [email, password]);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+        try{
+        const token = await AsyncStorage.getItem("authToken");
+        if (token) {
+          routerHome()
+        }
+      }
+      catch(err){
+        console.log("[LOGIN] useEffect error:", err);
+      }
+      };
+     checkLoginStatus();
+  },[])
 
   return (
     <SafeAreaView
@@ -96,7 +122,7 @@ const login = () => {
           </Pressable>
         </View>
         <View style={styles.submitContainer}>
-          <Pressable style={styles.submitButton}>
+          <Pressable style={styles.submitButton} onPress={()=> handleLogin()}>
             <AntDesign name="login" size={24} color="white" />
             <Text style={styles.submitButtonText}>Login</Text>
           </Pressable>

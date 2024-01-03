@@ -31,10 +31,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
-    connection:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'User'
-    },
+    connections:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ],
     connectionRequest:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
