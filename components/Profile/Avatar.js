@@ -6,6 +6,7 @@ const Avatar = ({item}) => {
     
     const navigation = useNavigation();
 
+
     const handleProfile= () => {
         try{
             console.log("[AVATAR] User info:", item);
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         objectFit: 'cover',
+        borderRadius: 50,
     },
     container:{
         width: 50,

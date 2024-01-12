@@ -9,19 +9,27 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from "jwt-decode";
 
+interface UserProps {
+    firstname: String,
+    lastname: String,
+    email: String,
+    description?: String,
+    userImage: String,
+}
+
 const index = () => {
 
 
-    const [ userId, setUserId ] = useState();
-    const [ user , setUser ] = useState({})
-
+    const [ userId, setUserId ] = useState<string>();
+    const [ user , setUser ] = useState<UserProps>()
+    const [ otherUsers, setOtherUsers ] = useState<UserProps[]>();
 
     useEffect(() => {
     const fetchUser = async () => {
-      const token = await AsyncStorage.getItem("authToken");
+      const token: string = await AsyncStorage.getItem("authToken");
     
       const decodedToken = jwtDecode(token);
-      const userId = decodedToken.userId;
+      const userId: string = decodedToken.userId;
       setUserId(userId);
     };
     fetchUser();
@@ -67,7 +75,7 @@ const index = () => {
                     <Avatar item={user}/>
                     <View style={styles.SearchBarContainer}>
                         <TextInput style={styles.SearchBarInput} placeholder='SearchBar'/>
-                        <AntDesign name="search1" size={24} color="black" />
+                        <Icon name="magnify" type='material-community' size={24} color="black" />
                     </View>
                 </View>
                 <View>

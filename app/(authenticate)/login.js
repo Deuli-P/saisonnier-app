@@ -10,8 +10,8 @@ import {
   Alert
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -123,6 +123,7 @@ const login = () => {
         </View>
         <View style={styles.submitContainer}>
           <Pressable style={styles.submitButton} onPress={()=> handleLogin()}>
+            {/* Icon de login */}
             <AntDesign name="login" size={24} color="white" />
             <Text style={styles.submitButtonText}>Login</Text>
           </Pressable>
