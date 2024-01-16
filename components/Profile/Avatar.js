@@ -1,8 +1,8 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useNavigation } from 'expo-router';
+import { useNavigation, Link } from 'expo-router';
 
-const Avatar = ({item}) => {
+const Avatar = ({item, dimensionPicture}) => {
     
     const navigation = useNavigation();
 
@@ -16,18 +16,20 @@ const Avatar = ({item}) => {
             console.log(`[AVATAR] Impossible d'aller sur la page profile de ${item.lastname}:`, err);
         }
     }
-  return (
-    <Pressable 
+
+    
+    return (
+        <Pressable 
         style={styles.container}
         onPress={handleProfile}
-    >
+        >
     <Image 
         source={{
             uri: item?.userImage ? item.userImage :
-                'https://reactnative.dev/img/tiny_logo.png',
+            'https://reactnative.dev/img/tiny_logo.png',
             
         }} 
-      style={styles.image}/>
+        style={styles.image}/>
     </Pressable>
   )
 }
@@ -42,8 +44,8 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     container:{
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         borderRadius: 50,
         backgroundColor: '#ddd',
     }

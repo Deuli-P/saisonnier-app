@@ -1,72 +1,56 @@
 import {
+  StyleSheet,
+  Alert,
+  SafeAreaView,
+  View,
+  Text,
   Image,
   KeyboardAvoidingView,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
   TextInput,
-  View,
-  Alert
+  Pressable
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import axios from "axios";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { useAuth } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const login = () => {
+
+  const { userId, serUser, setUserId, user } = useAuth();
+
   const [email, setEmail] = useState("drigdark.poubelle@gmail.com");
   const [password, setPassword] = useState("password");
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const router = useRouter();
 
-  const routerHome = () => {
-    router.replace("/(tabs)/home");
-  }
-
-
-
-  const handleLogin = useCallback(() => {
+// login 
+  const handleLogin = useCallback(async() => {
     try{
       const user = {
         email: email,
         password: password,
-      };
-      console.log("[LOGIN] User est:", user);
-      axios.post("http://localhost:8002/login", user)
-      .then((res) => {
-        const token = res.data.token;
-        AsyncStorage.setItem("authToken", token);
-        routerHome()
-        Alert.alert("Login successful");
-        setEmail("");
-        setPassword("");
-      })
-      .catch((err) => {
+        };
+       await axios.post(`http://localhost:8002/login`, user)
+        .then((res) => {
+          const token = res.data.token;
+          AsyncStorage.setItem("authToken", token);
+          const decoded = jwtDecode(token);
+          const loginId = decoded.userId;
+          console.log("[LOGIN] loginID est:", loginId);
+          setUserId(loginId);
+          console.log("[LOGIN] userId est:", userId);
+          setEmail("");
+          setPassword("");
+        })
+      }
+      catch(err) {
         Alert.alert("Login failed, Please try again");
         console.log("[LOGIN] Error est:", err);
-      });
-    }
-    catch(err){
-
-    }
-  }, [email, password]);
-
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-        try{
-        const token = await AsyncStorage.getItem("authToken");
-        if (token) {
-          routerHome()
-        }
       }
-      catch(err){
-        console.log("[LOGIN] useEffect error:", err);
-      }
-      };
-     checkLoginStatus();
-  },[])
+  },[ email, password ]);
 
   return (
     <SafeAreaView
@@ -155,7 +139,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     marginTop: 12,
-    color: "#0a66c2",
+    color: "#ff9d2f",
   },
   logoContainer: {
     marginTop: 50,
@@ -173,7 +157,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   submitButton: {
-    backgroundColor: "#0a66c2",
+    backgroundColor: "#ff9d2f",
     padding: 10,
     borderRadius: 10,
     marginTop: 30,
@@ -188,7 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   forgetText: {
-    color: "#0a66c2",
+    color: "#ff9d2f",
     marginTop: 10,
   },
   checkboxContainer: {
@@ -216,7 +200,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   redirectionText: {
-    color: "#0a66c2",
+    color: "#ff9d2f",
     marginTop: 30,
     fontWeight: "bold",
     fontSize: 18,

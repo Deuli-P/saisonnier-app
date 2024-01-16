@@ -6,6 +6,10 @@ const Layout = () => {
   return (
     <Stack screenOptions={{headerShown: false}}>
       <Stack.Screen name='index' />
+      <Stack.Screen name='modalEvent' options={{presentation:"modal"}}/>
+      <Stack.Screen name='modalMedia' options={{presentation:"modal"}}/>
+      <Stack.Screen name='modalSondage' options={{presentation:"modal"}}/>
+
     </Stack>
   )
 }

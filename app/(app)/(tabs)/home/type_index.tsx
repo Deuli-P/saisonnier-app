@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, SafeAreaView, StyleSheet, Image, TextInput, FlatList, ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import PostCard from '../../../components/Posts/PostCard';
-import Avatar from '../../../components/Profile/Avatar';
+import PostCard from '../../../../components/Posts/PostCard';
+import Avatar from '../../../../components/Profile/Avatar';
 import "core-js/stable/atob";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import axios from 'axios';

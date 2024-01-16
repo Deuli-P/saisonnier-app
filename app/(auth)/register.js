@@ -4,6 +4,12 @@ import {Entypo, MaterialCommunityIcons, MaterialIcons, AntDesign, Foundation } f
 import { useRouter } from 'expo-router';
 import axios from 'axios';
 
+// Mettre un slider pour plusieurs etape de register
+// Mettre un bouton pour passer a l'etape suivante
+    // Premiere page: email , password, username,
+    // Deuxieme page: firstname, lastname, age, adresse, numero de telephone
+    // Troisieme page: employeur, numero de contrat(required)
+    // Quatrieme page: image de profil, description
 
 const register = () => {
 
@@ -134,7 +140,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontWeight: "bold",
         marginTop: 12,
-        color: "#0a66c2"
+        color: "#ff9d2f"
     },
     logoContainer:{
         marginTop: 30,
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     submitButton:{
-        backgroundColor: "#0a66c2",
+        backgroundColor: "#ff9d2f",
         width: 200,
         padding: 10,
         borderRadius: 10,
@@ -167,7 +173,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     redirectionText:{
-        color: "#0a66c2",
+        color: "#ff9d2f",
         marginTop: 30,
         fontWeight: "bold",
         fontSize: 18,

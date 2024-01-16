@@ -4,7 +4,7 @@ import React from 'react'
 const index = () => {
   return (
     <View>
-      <Text>Conversation page</Text>
+      <Text>Connections pages</Text>
     </View>
   )
 }
