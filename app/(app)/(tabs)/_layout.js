@@ -38,6 +38,7 @@ const Layout = () => {
             options={{
               tabBarLabel: "Post",
               tabBarLabelStyle:{...styles.tabBarLabel},
+              presentation:"modal",
               headerShown: false,
               tabBarIcon: ({ focused }) => (
                 focused ?

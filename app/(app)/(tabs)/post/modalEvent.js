@@ -1,6 +1,7 @@
-import { StyleSheet, Text, TextInput, View, } from 'react-native'
+import { StyleSheet, Text, TextInput, View} from 'react-native'
 import React from 'react'
 import SubmitButton from '../../../../components/Buttons/Submit'
+import Close from '../../../../components/Buttons/goBack/Close'
 
 const modalEvent = () => {
 
@@ -9,6 +10,10 @@ const modalEvent = () => {
     }
   return (
     <View>
+        <View>
+            <Close />
+        
+        </View>
         <Text>modalEvent</Text>
         <View>
             <Text> Titre de l'évenement</Text>
@@ -23,12 +28,12 @@ const modalEvent = () => {
             <View>
             <Text> Date de debut</Text>
         {/* input pour la date du debut */} 
-            <Input />
+            <TextInput />
             </View>
             <View>
             <Text> Heure de debut</Text>
         {/* input pour l'heure du debut */} 
-            <Input />
+            <TextInput />
             </View>
 
         </View>
@@ -36,12 +41,12 @@ const modalEvent = () => {
             <View>
             <Text> Date de fin</Text>
         {/* input pour la date de fin */} 
-            <Input />
+            <TextInput />
             </View>
             <View>
             <Text> Heure de fin</Text>
         {/* input pour l'heure de fin */} 
-            <Input />
+            <TextInput />
             </View>
 
         </View>

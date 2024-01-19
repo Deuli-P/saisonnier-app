@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, ScrollView} from 'react-native';
 import PostCard from '../../../../components/Posts/PostCard';
 import "core-js/stable/atob";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -12,41 +12,36 @@ const index = () => {
 
     const rootSegments = useSegments()[2];
 
+    const [ isLoading, setIsLoading ] = useState(true);
+
     const { user , userId, setUser } = useAuth();
 
     useEffect(() => {
-        console.log("[HOME] rootSegment:",rootSegments);
-        const fetchProfile = async() => {
-            try{
-                await axios.get(`http://localhost:8002/profile/${userId}`)
-                .then((res) => {
-                    console.log("[HOME] fetch profile:",res.data);
-                    setUser(res.data);
-                })
-            }
-            catch(err){
-                console.log("[HOME] error fetchProfile",err);
-            }
+        console.log("[HOME] user est:",user);
+        if (user != undefined) {
+            setIsLoading(false);
         }
-        console.log("[HOME] userId:",userId);
-        if(user === null){
-            fetchProfile();
-            console.log("[HOME] fetch profile done:");
-        }
-    }, [userId, user])
+    }, [user]);
+
+    if (!user) {
+        return <Text>Loading...</Text>;
+      }
 
     return (
-        <SafeAreaProvider>
-            <Header/>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View>
-                    <Text>Catégories des posts:</Text>
-                </View>
-                <View style={styles.postsListContainer}>
-                  <Text>{user ? user.firstname: "vide"}</Text>
-                </View>
-            </ScrollView>
-        </SafeAreaProvider>
+                <SafeAreaView>
+                    <Header/>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View>
+                            <Text>Catégories des posts:</Text>
+                        </View>
+                        <View style={styles.postsListContainer}>
+                            <Text>Prenom: {user?.firstname}</Text>
+                            <Text>Nom: {user?.lastname}</Text>
+                            <Text>email: {user?.email}</Text>
+                            <Text>verified: {user?.verified}</Text>
+                        </View>
+                    </ScrollView>
+                </SafeAreaView>
     );
 };
 

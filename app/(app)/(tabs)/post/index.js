@@ -1,79 +1,78 @@
-import { Pressable, StyleSheet, TextInput,  View, Text, TouchableOpacity} from 'react-native'
-import React from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Pressable, StyleSheet, TextInput, Image, View, Text, TouchableOpacity, SafeAreaView, Button, Modal} from 'react-native'
+import { useState } from 'react'
 import { useRouter, useNavigation } from "expo-router";
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useAuth } from '../../../context/AuthContext';
+import SubmitButton from '../../../../components/Buttons/Submit';
+import Close from '../../../../components/Buttons/goBack/Close';
+import SelectCategories from '../../../../components/Selects/SelectCategories';
+import modalEvent from "./modalEvent";
 
 const index = () => {
 
+  const [ modalUp, setModalUp ] = useState(false);
+  const [ categorieSelected, setCategorieSelected ] = useState("General");
 
+  const { user } = useAuth();
 
-    // text input pour le text
-    // choix de categorie avec un dropdown
-    // bouton pour poster
-    // bouton pour annuler
-    // bouton pour ajouter un media
-    // Bouton pour ajouter un evenement
+  const [ textArea, setTextArea ] = useState("");
+  const [ media, setMedia ] = useState("");
+  // croix pour fermer, avatar, categorie dopdown,bouton publier
+  // text input pour le texte
+  // bouton pour ajouter un media, evenement, sondage
+  
+  // click sur Categorie select , ouvre modal avec les checkbox de categories a selectionné , only one selection
+  const router = useRouter();
+  const navigation = useNavigation();
 
-    const router = useRouter();
-    const navigation = useNavigation();
+  const handleModalEvent = () => {
+    navigation.navigate("modalEvent")
+  }
+  const handleModalSondage = () => {
+    navigation.navigate("modalSondage")
+  }
+  const handleModalMedia = () => {
+    navigation.navigate("modalMedia")
+  }
 
-    const handleModalEvent = () => {
-      navigation.navigate("modalEvent")
-    }
-    const handleModalSondage = () => {
-      navigation.navigate("modalSondage")
-    }
-    const handleModalMedia = () => {
-      navigation.navigate("modalMedia")
-    }
-    
-
-
-    const logout = () => {
-      clearAuthToken();
-    };
-    const clearAuthToken = async () => {
-      await AsyncStorage.removeItem("authToken");
-      console.log("auth token cleared");
-      router.replace("/(authenticate)/login");
-    };
+  const handlePost = () => {
+    console.log('[POST]valider post')
+  }
     
   return (
-    <View >
-      <Text >Write your post :</Text>
-      {/* Text area pour le message */}
-      <TextInput placeholder='Write your post here' multiline={true} numberOfLines={4} style={styles.inputTextArea}/>
+    <SafeAreaView >
+      <View style={{ flexDirection:"row", height: 70, width: "100%", paddingVertical:20,paddingHorizontal:10, justifyContent: "space-between", alignItems: "center"}}>
+        <Close />
+        <Pressable style={styles.CategoriesContainer} onPress={()=>{console.log("click modal categories");}}>
+          <Image source={{uri: user?.userImage}} style={{width: 50, height: 50, borderRadius: 50}}/>
+          <Text style={styles.SelectCategories}>{categorieSelected}</Text>
+        </Pressable>
+        <SubmitButton />
+      </View>
+      <TextInput 
+        placeholder='Write your post here' 
+        multiline={true} numberOfLines={4} 
+        style={styles.inputTextArea}
+        value={textArea}
+        onChangeText={(textArea) => setTextArea(textArea)}
+
+        // modal demi ouverte et ouvre plus au clique
+      />
       <View style={styles.buttonsContainer}>
         {/* add media */}
-        <TouchableOpacity style={styles.inputFile} onPress={()=>handleModalMedia}>
-          <FontAwesome name="file-picture-o" size={24} color="black" />
+        <TouchableOpacity style={styles.inputFile} onPress={()=>handleModalMedia()}>
+          <FontAwesome name="file-picture-o" size={36} color="black" />
         </TouchableOpacity>
         {/* add evenement */}
         <TouchableOpacity style={styles.inputFile} onPress={()=>handleModalEvent()}>
-          <FontAwesome name="calendar" size={24} color="black" />
+          <FontAwesome name="calendar" size={36} color="black" />
         </TouchableOpacity>
         {/* add sondage */}
         <TouchableOpacity style={styles.inputFile} onPress={()=>handleModalSondage()}>
-          <MaterialCommunityIcons name="google-analytics" size={24} color="black" />
+          <MaterialCommunityIcons name="google-analytics" size={36} color="black" />
         </TouchableOpacity>
       </View>
-      <View style={styles.pressableContainer}>
-      {/* post */}
-        <TouchableOpacity style={styles.pressablePost}>
-          <Text style={styles.pressableText}>Post</Text>
-        </TouchableOpacity>
-      {/* cancel and return home */}
-        <TouchableOpacity style={styles.pressableCancel}>
-          <Text style={styles.pressableText}>Cancel</Text>
-        </TouchableOpacity>
-        </View>
-        <View style={styles.pressableContainer}>
-          <Pressable onPress={logout} style={{paddingVertical: 8, paddingHorizontal: 12, backgroundColor: "purple", width: 120, marginTop: 50}}>
-            <Text style={styles.pressableText}>Logout</Text>
-          </Pressable>
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -81,54 +80,60 @@ export default index
 
 const styles = StyleSheet.create({
   inputFile:{
-    padding: 10,
+    padding: 15,
     backgroundColor: "#E0E0E0",
-    borderRadius: 10,
+    borderRadius: 50,
     marginHorizontal: 5,
-  },
-  buttonsContainer:{
-    flexDirection: "row",
-    marginTop: 20,
-    paddingHorizontal: 20,
+    shadowRadius: 3,
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 2 },
   },
   inputTextArea:{
     backgroundColor: "#E0E0E0",
-    borderRadius: 10,
-    padding: 10,
-    marginTop: 20,
-    marginHorizontal:5,
-    height: 150,
-  },
-  pressableContainer:{
-    flexDirection: "row",
-    justifyContent: "center",
-    gap: 20,
-    marginTop: 40,
-  },
-  pressablePost:{
-    backgroundColor: "green",
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    width: 170,
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  pressableCancel:{
-    backgroundColor: "red",
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    width: 170,
-    textAlign: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    borderRadius: 15,
+    padding: 15,
+    paddingTop:15,
+    marginTop: 15,
+    marginHorizontal:15,
+    height: 300,
+    zIndex: -100,
   },
   pressableText:{
-    color: "black",
+    color: "white",
     fontWeight: "bold",
     fontSize: 16,
-  }
-
+  },
+  inputCategories:{
+    width: 140,
+    backgroundColor: "#E0E0E0",
+    borderRadius: 25,
+    paddingHorizontal: 10,
+  },
+  buttonsContainer:{
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+    gap:30,
+  },
+  CategoriesContainer:{
+    width: 180,
+     flexDirection:"row",
+     gap:5,
+      alignItems: "center",
+      justifyContent:"center",
+       position:"relative",
+  },
+  SelectCategories:{
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#444",
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: "#E0E0E0",
+    borderStyle: "solid",
+    borderWidth: 2,
+  },
 })

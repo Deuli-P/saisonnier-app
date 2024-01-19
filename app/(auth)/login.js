@@ -19,7 +19,7 @@ import axios from "axios";
 
 const login = () => {
 
-  const { userId, serUser, setUserId, user } = useAuth();
+  const { userId, setUser, setUserId, user } = useAuth();
 
   const [email, setEmail] = useState("drigdark.poubelle@gmail.com");
   const [password, setPassword] = useState("password");

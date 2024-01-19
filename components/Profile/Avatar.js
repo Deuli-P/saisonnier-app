@@ -17,7 +17,6 @@ const Avatar = ({item, dimensionPicture}) => {
         }
     }
 
-    
     return (
         <Pressable 
         style={styles.container}

@@ -1,13 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, Pressable} from 'react-native'
 import React from 'react'
 
-const SubmitButton = ({text, action}) => {
+const SubmitButton = ({objet}) => {
 
+
+
+  // envoi du formulaire vers le backend 'post'
+  const handlePost = () => {
+    console.log('[SUBMITBUTTON]Post')
+    console.log('[SUBMITBUTTON]objet:',objet);
+  }
 
   return (
-    <View style={styles.container} onPress={action}>
-      <Text style={styles.text}>{text}</Text>
-    </View>
+    <Pressable style={styles.container} onPress={()=> handlePost()}>
+      <Text style={styles.text}>Post</Text>
+    </Pressable>
   )
 }
 
@@ -16,14 +23,15 @@ export default SubmitButton
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#FFB800',
-        width: 100,
-        height: 50,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 5
+        borderRadius: 25,
+        paddingHorizontal: 24,
+        paddingVertical: 8,
     },
     text: {
-        color: '#fff',
+        color: '#FFE399',
         fontSize: 20,
         fontWeight: 'bold'
     }

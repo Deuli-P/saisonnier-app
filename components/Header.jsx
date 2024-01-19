@@ -10,13 +10,15 @@ import { useAuth } from '../app/context/AuthContext';
 const Header = () => {
 
     const { user } = useAuth();
-    const rootSegment = useSegments()[0];
+    const rootSegment = useSegments()[2];
     const [isHome, setIsHome] = useState(false);
 
 
     useEffect(()=>{
-        if(rootSegment === '/(tabs)/home/index'){
+        console.log(`it's page ${rootSegment}`);
+        if(rootSegment === 'home'){
             setIsHome(true);
+
         }else{
             setIsHome(false);
         }
