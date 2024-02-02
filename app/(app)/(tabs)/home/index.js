@@ -17,7 +17,6 @@ const index = () => {
     const { user , userId, setUser } = useAuth();
 
     useEffect(() => {
-        console.log("[HOME] user est:",user);
         if (user != undefined) {
             setIsLoading(false);
         }

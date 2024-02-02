@@ -1,89 +1,71 @@
-import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Button, Image, Pressable, StyleSheet, Text, View, Platform } from 'react-native'
 import React, { useEffect } from 'react'
 import { useNavigation } from 'expo-router';
 import Cancel from '../../../../components/Buttons/goBack/Cancel';
 import { Ionicons,  MaterialCommunityIcons } from '@expo/vector-icons';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
+import { usePost } from "../../../context/PostContext";
+import MediaImport from '../../../../components/Media/MediaImport';
+import SubmitButton from '../../../../components/Buttons/Submit';
 const modalMedia = () => {
+
+  const { setMedia , media } = usePost();
 
   const navigation = useNavigation();
 
 // component commun pour annuler et retourner en arrière.
   const handleCancel = () => {
+    setMedia("")
     navigation.goBack();
   }
 
-  const [ imageImport, setImageImport ] = React.useState([]);
+  const handleSuivant = () => {
+    navigation.navigate("index");
+  }
+  
 
+  
   useEffect(() => {
     console.log("[MEDIA] Modal Media ouverte");
-    const handleMedia = async () => {
-      try{
-        await launchImageLibrary({mediaType: 'photo',
-                             selectionLimit: 4,
-                             includeBase64: true
-                          })
-            .then((response) => {
-              console.log(response);
-              setImageImport(response.assets);
-            })
-            .catch((error) => {
-              if(error.didCancel){
-                console.log("[MEDIA] CAncel:",error.didCancel);
-              }
-              if(error.errorCode === 'camera_unavailable'){
-                console.log("[MEDIA] Camera unavailable:",error.errorCode);
-              }
-              if(error.errorCode === 'permission'){
-                console.log("[MEDIA] Permission:",error.errorCode);
-              }
-              if(error.errorCode === 'others'){
-                console.log("[MEDIA] Others:",error.errorCode);
-              }
-              if( error.errorMessage){
-                console.log("[MEDIA] errorMessage:",error.errorMessage);
-              }
-            });
-      }
-      catch(e){
-        console.log(e);
-      }
-    }
-    handleMedia();
   }, [])
   // a l'ouverture reset tout les champs
+
+
+  const handleWarning = () => {
+    Alert.alert("[MEDIA] Features en cours de developpement");
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.navigationContainer}>
         <Cancel />
-        <Pressable style={styles.suivantPressable}>
-          <Text style={styles.suivantText}>Suivant</Text>
-        </Pressable>
+          <SubmitButton title='Suivant' onPress={()=>console.log("[MEDIA] Import image vers Post")}/>
       </View>
-      <View>
-        <Image source={{uri: "https://picsum.photos/200/300"}} style={styles.image}/>
+      <View style={styles.imagePickerContainer}>
+      {media ?
+       <Image source={{ uri: item.uri }} style={styles.imagePickerImage} key={index}/>
+      :
+        <MediaImport type="post" />
+      }
       </View>
       <View style={styles.optionsFiltersContainer}>
         {/* edit */}
-        <Pressable style={styles.optionsFilters}>
+        <Pressable style={styles.optionsFilters} onPress={()=>handleWarning()}>
           <Ionicons name="pencil" size={24} color="black" />
         </Pressable>
         {/* resize */}
-        <Pressable style={styles.optionsFilters}>
+        <Pressable style={styles.optionsFilters} onPress={()=>handleWarning()}>
           <MaterialCommunityIcons name="text-recognition" size={24} color="black" />
         </Pressable>
         {/* legend */}
-        <Pressable style={styles.optionsFilters}>
+        <Pressable style={styles.optionsFilters} onPress={()=>handleWarning()}>
           <Text>Alt</Text>
         </Pressable>
         {/* identifie */}
-        <Pressable style={styles.optionsFilters}>
+        <Pressable style={styles.optionsFilters} onPress={()=>handleWarning()}>
           <Ionicons name="person" size={24} color="black" />
         </Pressable>
         {/* sticker */}
-        <Pressable style={styles.optionsFilters}>
+        <Pressable style={styles.optionsFilters} onPress={()=>handleWarning()}>
           <MaterialCommunityIcons name="sticker-circle-outline" size={24} color="black" />
         </Pressable>
       </View>
@@ -127,6 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   suivantPressable:{
     paddingVertical: 8,
@@ -139,5 +122,42 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'white',
-  }
+  },
+  imagePickerContainer:{
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imagePickerButton:{
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    backgroundColor: '#FFB800',
+    borderRadius: 20,
+    marginVertical: 10,
+    color: 'white',
+    fontSize: 20,
+  },
+  imagePickerButtonText:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  imagePickerAltContainer:{
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: '#FFB800',
+    borderRadius: 20,
+  },
+  imagePickerAltText:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  imagePickerImage:{
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
+  },
 })

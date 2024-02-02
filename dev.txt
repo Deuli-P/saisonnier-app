@@ -1,0 +1,14 @@
+
+COLORS:
+
+Primary: #ff9d2f
+Primary -1: #fca311
+
+Secondary: 
+Secondary-1: 
+
+ThemeLight-BG: 
+ThemeDark-BG: 
+
+
+

@@ -1,18 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+// Path: app/(auth)/_layout.js
 import { Stack } from 'expo-router'
+import index from '.'
 
-const layout = () => {
+export default function Layout(){
+
   return (
-    <Stack>
-        {/* Page login */}
-        <Stack.Screen name='login' options={{headerShown: false}}  />
-        {/* Page register */}
-        <Stack.Screen name='register' options={{headerShown: false}} />
+    <Stack initialRouteName='index'>
+        // vers saisonniers ou entreprise
+        <Stack.Screen name='index' options={{headerShown: false}}/>
+        // vers login ou register des entreprises
+        <Stack.Screen name='(entreprise)' options={{headerShown: false}}/>
+        // vers login ou register des saisonniers
+        <Stack.Screen name='(saisonnier)' options={{headerShown: false}}/>
     </Stack>
   )
 }
-
-export default layout
-
-const styles = StyleSheet.create({})

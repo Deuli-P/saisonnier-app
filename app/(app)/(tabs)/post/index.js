@@ -1,12 +1,10 @@
 import { Pressable, StyleSheet, TextInput, Image, View, Text, TouchableOpacity, SafeAreaView, Button, Modal} from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useNavigation } from "expo-router";
 import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAuth } from '../../../context/AuthContext';
 import SubmitButton from '../../../../components/Buttons/Submit';
 import Close from '../../../../components/Buttons/goBack/Close';
-import SelectCategories from '../../../../components/Selects/SelectCategories';
-import modalEvent from "./modalEvent";
 
 const index = () => {
 
@@ -16,29 +14,36 @@ const index = () => {
   const { user } = useAuth();
 
   const [ textArea, setTextArea ] = useState("");
-  const [ media, setMedia ] = useState("");
+  const [ categories, setCategories ] = useState("General");
+  const [ media, setMedia ] = useState();
+  const [ event, setEvent ] = useState();
+  const [ sondage, setSondage ] = useState();
   // croix pour fermer, avatar, categorie dopdown,bouton publier
   // text input pour le texte
   // bouton pour ajouter un media, evenement, sondage
   
-  // click sur Categorie select , ouvre modal avec les checkbox de categories a selectionné , only one selection
+  // click sur Categorie select , ouvre modal en bas de la page avec les checkbox de categories a selectionné , only one selection
   const router = useRouter();
   const navigation = useNavigation();
 
   const handleModalEvent = () => {
-    navigation.navigate("modalEvent")
+    navigation.navigate( "modalEvent" )
   }
   const handleModalSondage = () => {
-    navigation.navigate("modalSondage")
+    navigation.navigate( "modalSondage" )
   }
   const handleModalMedia = () => {
-    navigation.navigate("modalMedia")
+    navigation.navigate( "modalMedia" )
   }
 
   const handlePost = () => {
     console.log('[POST]valider post')
   }
-    
+
+  useEffect(() => {
+    console.log("[POST] Post en cours de creation");
+  },[])
+
   return (
     <SafeAreaView >
       <View style={{ flexDirection:"row", height: 70, width: "100%", paddingVertical:20,paddingHorizontal:10, justifyContent: "space-between", alignItems: "center"}}>
@@ -47,7 +52,7 @@ const index = () => {
           <Image source={{uri: user?.userImage}} style={{width: 50, height: 50, borderRadius: 50}}/>
           <Text style={styles.SelectCategories}>{categorieSelected}</Text>
         </Pressable>
-        <SubmitButton />
+        <SubmitButton title='Post' onPress={()=>console.log("[POST Submit")}/>
       </View>
       <TextInput 
         placeholder='Write your post here' 

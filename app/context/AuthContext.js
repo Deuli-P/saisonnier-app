@@ -6,11 +6,13 @@ import axios from "axios";
 
 const AuthContext = createContext(
     {
-        user: null,
+        user: undefined,
         setUser: () => {},
-        userId: null,
+        userId: undefined,
         setUserId: () => {},
         logout: () => {},
+        authType: undefined,
+        setAuthType: () => {},
     }
 );
 
@@ -26,6 +28,8 @@ export const AuthProvider = ({ children }) => {
 
     // data user
     const [user, setUser] = useState(undefined);
+    // type user ; Saisonnier ou Entreprise
+    const [authType, setAuthType] = useState(undefined);
     // userId 
     const [ userId, setUserId ] = useState(undefined);
     // pour savoir ou on est
@@ -37,15 +41,17 @@ export const AuthProvider = ({ children }) => {
     const logout = async() => {
         console.log("[CONTEXT] logout");
         await AsyncStorage.removeItem("authToken");
+        await AsyncStorage.removeItem("authType");
         await clearAuthToken();
         setUser(null);
         setUserId(undefined);
-        route.replace("(auth)/login");
+        route.replace("(auth)/index");
     };
 
     // clear le token
     const clearAuthToken = async() => {
         await AsyncStorage.removeItem("authToken");
+        await AsyncStorage.removeItem("authType");
     };
 
     // setUser
@@ -53,7 +59,9 @@ export const AuthProvider = ({ children }) => {
         try{
             console.log("[///////////////////");
             console.log("[CONTEXT] fetchProfile");
-            await axios.get(`http://localhost:8002/profile/${req}`)
+            console.log("[CONTEXT] authType:",authType);
+
+            await axios.get(`http://localhost:8002/profile/${authType}/${req}`)
             .then((res) => {
                 console.log("[CONTEXT] fetch profile SUCCESS:",res.data.user);
                 setUser(res.data.user);
@@ -69,14 +77,17 @@ export const AuthProvider = ({ children }) => {
     const checkAuthToken = async () => {
         try{
             const value = await AsyncStorage.getItem("authToken");
-            if (value !== null) {
+            const type = await AsyncStorage.getItem("authType");
+            if (value !== null && type !== null) {
+                setAuthType(type);
                 const decoded = jwtDecode(value);
                 const userId = decoded.userId;
                 setUserId(userId);
                 await fetchProfile(userId);
-                route.replace("(app)/(tabs)/home");
+                route.replace("(app)/(tabs)");
             }
             else{
+                setAuthType(null);
                 setUserId(null);
             }
         }
@@ -86,16 +97,16 @@ export const AuthProvider = ({ children }) => {
     }
 
 
-    useEffect(()=> {
+    useEffect( ()=> {
         if(userId === undefined){
-            checkAuthToken();
+             checkAuthToken();
         };
         if(userId === null && rootSegment !== "(auth)"){
-            route.replace("(auth)/login")
+            route.replace("/(auth)")
         }
-        else if(userId !== null && rootSegment === "(auth)"){
+        else if(userId && rootSegment === "(auth)"){
             fetchProfile(userId);
-            route.replace("(app)/(tabs)")
+            route.replace("/(tabs)")
         }
     },[ rootSegment, userId ])
 
@@ -105,6 +116,8 @@ export const AuthProvider = ({ children }) => {
         userId: userId,
         setUserId,
         logout,
+        authType,
+        setAuthType,
     };
 
     return (

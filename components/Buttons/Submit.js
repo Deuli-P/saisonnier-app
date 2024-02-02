@@ -1,19 +1,18 @@
 import { StyleSheet, Text, Pressable} from 'react-native'
 import React from 'react'
 
-const SubmitButton = ({objet}) => {
+const SubmitButton = ({title, onPress}) => {
 
 
 
   // envoi du formulaire vers le backend 'post'
   const handlePost = () => {
     console.log('[SUBMITBUTTON]Post')
-    console.log('[SUBMITBUTTON]objet:',objet);
   }
 
   return (
-    <Pressable style={styles.container} onPress={()=> handlePost()}>
-      <Text style={styles.text}>Post</Text>
+    <Pressable style={styles.container} onPress={onPress}>
+      <Text style={styles.text}>{title}</Text>
     </Pressable>
   )
 }

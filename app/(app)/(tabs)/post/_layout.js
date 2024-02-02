@@ -4,6 +4,7 @@ import { Stack } from 'expo-router'
 
 const Layout = () => {
   return (
+    // Context pour le posts et les modals 
     <Stack screenOptions={{headerShown: false}}>
       <Stack.Screen name='index' />
       <Stack.Screen name='modalEvent' options={{presentation:"modal"}}/>
