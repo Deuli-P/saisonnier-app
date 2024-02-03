@@ -1,30 +1,19 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { useNavigation, Link } from 'expo-router';
+import MediaImport from '../Media/MediaImport';
 
 const Avatar = ({item, dimensionPicture}) => {
     
-    const navigation = useNavigation();
-
-
-    const handleProfile= () => {
-        try{
-            console.log("[AVATAR] User info:", item);
-            navigation.navigate("profile", {item: item})
-        }
-        catch(err){
-            console.log(`[AVATAR] Impossible d'aller sur la page profile de ${item.lastname}:`, err);
-        }
-    }
 
     return (
         <Pressable 
         style={styles.container}
-        onPress={handleProfile}
+        onPress={()=>MediaImport()}
         >
     <Image 
         source={{
-            uri: item?.userImage ? item.userImage :
+            uri: item?.image ? item.image :
             'https://reactnative.dev/img/tiny_logo.png',
             
         }} 

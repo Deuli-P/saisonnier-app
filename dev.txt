@@ -11,4 +11,53 @@ ThemeLight-BG:
 ThemeDark-BG: 
 
 
+BASICS :
 
+// app
+    -_layout.js
+    - index.js                                  // Si pas connecté alors afficher avec un choix entre connexion entreprise ou user
+    //(auth)
+        //(entreprise)
+            - _layout.js
+            - login.js          // Form de Sign In
+            - register.js       // Form de Sign Up
+        //(user)
+            - _layout.js
+            - login.js          // Form de Sign In
+            - register.js       // Form de Sign Up
+        - _layout.js                            // Layout
+
+
+    //(app)
+        -_layout.js
+        //entreprise
+            //(tabs)
+                - _layout.js
+                // scanner
+                    - _layout.js
+                    - [cardByID].js             // Card affiché lors du scan.
+                    - scannerQRCode.js          // Scanner de QRCode
+                - gestion.js                    // Gestion page pour ajouter ou supprimier les emplyé, modifier horaires
+                        * Input employé
+                        * Input horaire
+                        * Input Image
+        //user
+            // (tabs)
+                - _layout.js
+                - QRCode.js                     // QRCode personnel a faire scan
+                - [user].js                     // Gestion de page profile
+                        * Input photo
+                        * Affichage des infos donnés input disabled
+
+// feature
+    // AuthContext
+        // logout
+        // userID
+        // AsyncStorage
+        // user data
+        // userType : entreprise ou user
+    
+    // QRCode
+        // Scanner QRCode pour entreprise account
+        // Creation QRCode pour user account
+        // Affichage d'une card [cardByID].js

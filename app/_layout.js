@@ -2,21 +2,14 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useCallback } from 'react'
 import { Slot } from 'expo-router'
 import { AuthProvider } from './context/AuthContext';
-import {
-  ThemeProvider,
-  DarkTheme,
-  DefaultTheme,
-  useTheme,
-} from "@react-navigation/native";
+import onBoarding from './onBoarding';
 
 const Layout = () => {
 
   return (
-    <ThemeProvider theme={DarkTheme}>
       <AuthProvider >
-          <Slot />
+        <Slot />
       </AuthProvider>
-    </ThemeProvider>
   )
 }
 
