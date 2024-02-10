@@ -21,7 +21,7 @@ const _layout = () => {
             }}
           />
           <Tabs.Screen 
-            name='QRCode' 
+            name='qrcode' 
             options={{
               headerShown: false,
               tabBarLabel: "QRCode",

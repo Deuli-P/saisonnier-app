@@ -5,7 +5,7 @@ const _layout = () => {
   return (
     <Tabs>
         <Tabs.Screen 
-          name='[entreprise]' 
+          name='entreprise' 
           options={{
             tabBarLabel: "Profile",
             tabBarLabelStyle:{...styles.tabBarLabel},
@@ -19,14 +19,14 @@ const _layout = () => {
             }} 
           />
         <Tabs.Screen 
-          name='scannerQRCode' 
+          name='scanner' 
           options={{
-            tabBarLabel: "Scan",
+            tabBarLabel: "Scanner",
             tabBarLabelStyle:{...styles.tabBarLabel},
             headerShown: false,
             tabBarIcon: ({ focused }) => (
               focused ?
-              (<Ionicons name="scan-circle-sharp" size={24} color="black" />)
+              (<Ionicons name="scan-circle" size={24} color="black" />)
               :
               (<Ionicons name="scan-circle-outline" size={24} color="black" />)
               ),

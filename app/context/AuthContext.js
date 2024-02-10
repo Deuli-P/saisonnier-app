@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
                 console.log("[CONTEXT] fetch profile User SUCCESS:",res.data.user);
                 setUser(res.data.user);
                 console.log("[///////////////////");
-                router.push("/user/[user]");
+                router.push("(app)/user/[user]");
 
             })
         }
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
                 setEntreprise(res.data.user);
                 console.log("[CONTEXT] Entreprise State:", entreprise);
                 console.log("[///////////////////");
-                router.push("/entreprise/(tabs)/[entreprise]");
+                router.push("(app)/entreprise/(tabs)/entreprise");
             })
         }
         catch(err){
@@ -135,13 +135,13 @@ export const AuthProvider = ({ children }) => {
             if( authType === "entreprise"){
                 fetchProfileEntreprise(userId);
                 if(entreprise){
-                    router.push("/entreprise/(tabs)/[entreprise]")
+                    router.push("(app)/entreprise/(tabs)/entreprise")
                 }
             }
             if( authType === "user"){
                 fetchProfileUser(userId);
                 if(user){
-                   router.push("/user/[user]")
+                   router.push("(app)/user/[user]")
                 }
             }
         }

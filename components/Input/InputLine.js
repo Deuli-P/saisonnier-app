@@ -1,7 +1,7 @@
 import { StyleSheet, TextInput } from 'react-native'
 import { useState } from 'react'
 
-const InputLine = ({width, onChangeText, value, placeholder, security,required}) => {
+const InputLine = ({width, onChangeText, value, placeholder, security,required, disabled}) => {
 
     const [focused, setFocused] = useState(false);
     const styles = StyleSheet.create({
@@ -27,6 +27,7 @@ const InputLine = ({width, onChangeText, value, placeholder, security,required})
               onSubmitEditing={() => setFocused(false)}
               onEndEditing={() => setFocused(false)}
               required={required}
+              disabled={disabled}
             />
   )
 }
