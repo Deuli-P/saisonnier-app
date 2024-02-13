@@ -14,15 +14,31 @@
 
 Here are some of the project's best features:
 
-*   [ ] Tchat
-*   [ ] Posts
-*   [x] Register
+*   [x] Choose between Entreprise or User account
+*   [x] Register Entreprise
+*   [x] Login Entreprise
+*   [x] Register User
 *   [x] Login
 *   [x] Log out
-*   [ ] Add Friends
-*   [x] Use QRcode to show the user profile
+*   [x] Use QRcodes to show the user profile
 *   [x] show and update opening hours to enterprises
+*   [ ] Update image profile User and Entreprise
 *   [ ] Updating username to user 
+*   [ ] Tchat
+*   [ ] Create Posts
+*   [ ] Add Image to Post
+*   [ ] Upload Image from Camera
+*   [ ] Upload Video from Camera
+*   [ ] Upload Image from Library
+*   [ ] Upload Video from Library
+*   [ ] Like Post
+*   [ ] Comment Post
+*   [ ] Share Post
+*   [ ] Create Event
+*   [ ] Add Friends
+*   [ ] Post Job Offer
+*   [ ] Upload CV on User Profile
+        
 
 <h2>🛠️ Installation Steps:</h2>
 
