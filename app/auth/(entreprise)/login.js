@@ -21,8 +21,8 @@ import "core-js/stable/atob";
   
   const login = () => {
 
-    const { userId, setUser, setUserId, user, setAuthType, authType } = useAuth();
-    const [email, setEmail] = useState("Carrouf.fictif@entreprise.com");
+    const { userId, setEntreprise, setUserId, entreprise, setAuthType, authType, fetchProfileEntreprise } = useAuth();
+    const [email, setEmail] = useState("carrefour.saisonnier@gmail.com");
     const [password, setPassword] = useState("password");
     const router = useRouter();
     const [isEmpty, setIsEmpty] = useState(true);
@@ -36,20 +36,23 @@ import "core-js/stable/atob";
           password: password,
           };
          await axios.post(`http://localhost:8002/entreprise/login`, user)
-          .then((res) => {
+          .then(async(res) => {
             const token = res.data.token;
-            console.log("[LOGIN] token:", token);
             AsyncStorage.setItem("authToken", token);
             AsyncStorage.setItem("authType", "entreprise");
             const decoded = jwtDecode(token);
-            console.log("[LOGIN] decoded:", decoded);
             const loginId = decoded.userId;
-            console.log("[LOGIN] loginId:", loginId);
             setAuthType("entreprise");
-            console.log("[LOGIN] authType au login:", authType);
+            console.log(`[LOGIN] LOGIN:
+              Token:${token},
+              LoginID:${loginId},
+              AuthType ${authType}
+              `);
             setUserId(loginId);
-            setEmail("");
-            setPassword("");
+            console.log("[LOGIN] userID dans useAuth:", userId);
+            fetchProfileEntreprise(userId);
+            // setEmail("");
+            // setPassword("");
           })
         }
         catch(err) {

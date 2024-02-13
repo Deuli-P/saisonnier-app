@@ -3,18 +3,24 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { Alert } from "react-native";
 
 const AuthContext = createContext(
     {
-        user: undefined,
-        setUser: () => {},
+        // userId
         userId: undefined,
         setUserId: () => {},
-        logout: () => {},
+        // type user ; user ou entreprise
         authType: undefined,
         setAuthType: () => {},
-        fetchProfileEntreprise: () => {},
-        fetchProfileUser: () => {},
+        // data user
+        user: undefined,
+        setUser: () => {},
+        // data entreprise
+        entreprise: undefined,
+        setEntreprise: ()=> {},
+        // pour deco
+        logout: () => {},
     }
 );
 
@@ -28,93 +34,59 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
 
-    // data user
-    const [user, setUser] = useState(undefined);
-    const [ entreprise , setEntreprise] = useState(undefined);
-    // type user ; Saisonnier ou Entreprise
-    const [authType, setAuthType] = useState(undefined);
     // userId 
     const [ userId, setUserId ] = useState(undefined);
+    // type user ; user ou entreprise
+    const [authType, setAuthType] = useState(undefined);
+    // data user
+    const [user, setUser] = useState(undefined);
+    // data entreprise
+    const [ entreprise , setEntreprise ] = useState(undefined);
     // pour savoir ou on est
     const rootSegment = useSegments()[0];
     // pour naviguer
     const router = useRouter();
 
-    // Clear le token, le userId et user
+    // Clear token, userId, user et authType
     const logout = async() => {
         console.log("[CONTEXT] logout");
         await AsyncStorage.removeItem("authToken");
         await AsyncStorage.removeItem("authType");
-        await clearAuthToken();
-        setUser(null);
+        setEntreprise(undefined);
+        setUser(undefined);
         setUserId(undefined);
-        router.replace("onBoarding");
-    };
-
-    // clear le token
-    const clearAuthToken = async() => {
-        await AsyncStorage.removeItem("authToken");
-        await AsyncStorage.removeItem("authType");
+        setAuthType(undefined)
+        router.push('onBoarding')
+        console.log(`///////////////////////////////////////////////////////
+        [CONTEXT] CHECKTOKEN:
+            authType: ${authType},
+            userID: ${userId},
+/////////////////////////////////////////////////////////////////////////////
+                `);
     };
 
     // setUser
-    const fetchProfileUser = useCallback(async(req)=>{
-        try{
-            console.log("[///////////////////");
-            console.log("[CONTEXT] fetchProfile");
-            await axios.get(`http://localhost:8002/user/profile/${req}`)
-            .then((res) => {
-                console.log("[CONTEXT] fetch profile User SUCCESS:",res.data.user);
-                setUser(res.data.user);
-                console.log("[///////////////////");
-                router.push("(app)/user/[user]");
 
-            })
-        }
-        catch(err){
-            console.log("[CONTEXT] fetchProfile ERROR",err);
-        }
-    },[]);
-
-    const fetchProfileEntreprise = useCallback(async(req)=>{
-        try{
-            console.log("[///////////////////");
-            console.log("[CONTEXT] fetchProfile");
-            await axios.get(`http://localhost:8002/entreprise/profile/${req}`)
-            .then((res) => {
-                console.log("[CONTEXT] fetch profile Entreprise SUCCESS:",res.data.user);
-                setEntreprise(res.data.user);
-                console.log("[CONTEXT] Entreprise State:", entreprise);
-                console.log("[///////////////////");
-                router.push("(app)/entreprise/(tabs)/entreprise");
-            })
-        }
-        catch(err){
-            console.log("[CONTEXT] fetchProfile ERROR",err);
-        }
-    },[]);
 
     // Check si le token est present
     const checkAuthToken = async () => {
         try{
-            const value = await AsyncStorage.getItem("authToken");
-            if (value !== null) {
-                const type = await AsyncStorage.getItem("authType");
-                setAuthType(type);
-                console.log("[CONTEXT] checkToken authType:", type);
+            const type = await AsyncStorage.getItem("authType");
+            if (type !== null) {
+                const newType = type.trim().toLowerCase();
+                setAuthType(newType);
+                const value = await AsyncStorage.getItem("authToken");
                 const decoded = jwtDecode(value);
-                const userId = decoded.userId;
-                setUserId(userId);
-                if(type === "entreprise"){
-                    await fetchProfileEntreprise(userId);
-                }
-                if(type === "user"){
-                    await fetchProfileUser(userId);
-                }
-            }
-            else{
-                setAuthType(null);
-                setUserId(null);
+                const userIdDecode = decoded.userId;
+                setUserId(userIdDecode);
+                console.log(`///////////////////////////////////////////////////////
+                [CONTEXT] CHECKTOKEN:
+                    type: ${newType},
+                    authType: ${authType},
+                    userIDDecode: ${userIdDecode},
+                    userID: ${userId},
+/////////////////////////////////////////////////////////////////////////////
+                        `);
             }
         }
         catch(err){
@@ -124,39 +96,32 @@ export const AuthProvider = ({ children }) => {
     }
 
 
-    useEffect( ()=> {
-        if(userId === undefined){
+    useEffect(()=> {
+        if(!userId){
              checkAuthToken();
         }
-        // if(userId === null && rootSegment !== "auth"){
-        //     route.replace("onBoarding")
-        // }
-        if(userId){
-            if( authType === "entreprise"){
-                fetchProfileEntreprise(userId);
-                if(entreprise){
-                    router.push("(app)/entreprise/(tabs)/entreprise")
-                }
+        if(userId && authType === 'entreprise'){
+                console.log(`[CONTEXT USEEFFECT] AuthType est ${authType}`);
+                router.push("(app)/entreprise/entreprise")
             }
-            if( authType === "user"){
-                fetchProfileUser(userId);
-                if(user){
-                   router.push("(app)/user/[user]")
-                }
+        if(userId && authType === "user" && !user ){
+                console.log(`[CONTEXT USEEFFECT] AuthType est ${authType}`);
+                router.push("(app)/user/user")
+
             }
-        }
-    },[ rootSegment, userId ])
+
+    },[ rootSegment,userId, authType, entreprise, user])
 
     const values = {
-        user: user,
+        user,
         setUser,
-        userId: userId,
+        userId,
         setUserId,
+        entreprise,
+        setEntreprise,
         logout,
         authType,
         setAuthType,
-        fetchProfileEntreprise,
-        fetchProfileUser,
     };
 
     return (

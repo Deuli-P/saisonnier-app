@@ -5,57 +5,68 @@ import {
   View,
   Image,
   Pressable,
-  ScrollView
+  ScrollView,
 } from "react-native";
-import React from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import Logout from "../../../../components/Buttons/Logout";
 import { FontAwesome } from "@expo/vector-icons";
 import InputFake from "../../../../components/Input/InputFake-disable";
+import HoraireShow from "../../../../components/Profile/HoraireArray/HoraireShow";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+
 
 const entreprise = () => {
-  const { entreprise } = useAuth();
+
+  const { userId, setEntreprise, entreprise } = useAuth();
+
+  const [ data, setData ] = useState(null);
 
 
-  const horaireFake= [
-    {id:"Monday", time:{morning:"8:00 - 12:00", afternoon:"14:00 - 18:00"}},
-    {id:"Tuesday", time:{morning: "8:00 - 12:00", afternoon:"14:00 - 18:00"}},
-    {id:"Wednesday", time:{morning: "8:00 - 12:00", afternoon:"14:00 - 18:00"}},
-    {id:"Thursday", time:{morning: "8:00 - 12:00", afternoon:"14:00 - 18:00"}},
-    {id:"Friday", time: {morning:"8:00 - 12:00", afternoon:"14:00 - 18:00"}},
-    {id:"Saturday", time:{ morning:"close", afternoon:"14:00 - 18:00"}},
-    {id:"Sunday", time: { morning:"close", afternoon:"close"}}
-  ]
+  useEffect(()=>{
+    if(!data){
+      if(entreprise){
+        setData(entreprise)
+      }
+      else{  
+          AsyncStorage.getItem("authToken").then(async(value) => {
+          const token = value;
+          const id = jwtDecode(token).userId;
+          await axios.get(`http://localhost:8002/entreprise/profile/${id}`)
+          .then((res) => {
+              setEntreprise(res.data.user);
+              setData(res.data.user);
+        })
+      })
+    }
+    }
+  },[data])
 
   // si time.morning === "close" && time.afternoon === "close" alors affiché close surtoute la ligne une fois
 
   // si time === 
 
-  const renderHoraire=()=>{
-    return horaireFake.map((item, index)=>{
-      return(
-        <View key={index} style={{flexDirection:"row", justifyContent:"space-between", padding:10, alignItems:"center"}}>
-          <Text sryle={{textAlign:"start"}}>{item.id}</Text>
-          <View style={{flexDirection:"row", justifyContent:"space-between",alignItems:"center", padding:10,gap:10,}}> 
-          { item.time.morning === "close" && item.time.afternoon === "close" ?
-            <Text style={{width:"100%", textAlign:"center"}}>Close</Text> 
-          : 
-          (
-            <>
-              <Text style={{ textAlign:"center"}}>{item.time.morning}</Text>
-              <Text style={{ textAlign:"center"}}>{item.time.afternoon}</Text>
-            </>
-          )}
-          </View>
-        </View>
-      )
-    })
-  }
+
 
   const handleChangePicture=()=>{
     console.log('change picture')
   }
+
+
+
   return (
+  !data? 
+      ( 
+        <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
+          <Text>Loading...</Text>
+          <Logout />
+
+        </SafeAreaView>
+      )
+    :
+      (
     <ScrollView>
     <View style={{ flex: 1, alignItems: "center" }}>
       <View
@@ -68,13 +79,13 @@ const entreprise = () => {
       >
         <View 
           style={{
-          qposition: "relative",
+          position: "relative",
           }}
         >
           <Image
             source={
-              entreprise?.image
-              ? { uri: entreprise.image }
+              data?.image
+              ? { uri: data.image }
               : require("../../../../assets/logo.png")
             }
             style={styles.profileImage}
@@ -89,6 +100,8 @@ const entreprise = () => {
               borderRadius: 50,
               width: 40,
               height: 40,
+              borderColor:"#db6612",
+               borderLeftWidth: 2,
               justifyContent: "center",
               alignItems: "center",
               shadowColor: "#000",
@@ -100,27 +113,23 @@ const entreprise = () => {
             }}
             onPress={()=>handleChangePicture()}
             >
-            <FontAwesome name="picture-o" size={20} color="black" />
+            <FontAwesome name="picture-o" size={18} color="black" />
           </Pressable>
           </View>
         <Text stye={styles.name}>
-          {entreprise ? entreprise.name : "Nom de l'entreprise"}
+          {data ? data.name : "Nom de l'entreprise"}
         </Text>
       </View>
       <View style={{width:"80%", marginVertical:20, gap:15}}>
 
-        <InputFake title="Boss" value={entreprise?.email} />
-        <InputFake title="Address" value={entreprise?.address} />
+        <InputFake title="Boss" value={data?.proprietaire} />
+        <InputFake title="Address" value={data?.address} />
       </View>
-      <View style={{width:"70%", alignItems:"center",gap:10}}>
-        <Text style={{fontSize:20, fontWeight:"bold"}}>Horaires:</Text>
-        <View style={{borderColor:"gray", borderWidth: 2, borderRadius: 10, marginBottom: 20}}>
-          {renderHoraire()}
-        </View>
-      </View>
-      <Logout />
+        <HoraireShow data={data.horaires}/>
+        <Logout />
     </View>
     </ScrollView>
+      )
   );
 };
 
