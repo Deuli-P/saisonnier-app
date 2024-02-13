@@ -18,6 +18,7 @@ Here are some of the project's best features:
 *   [x] Register Entreprise
 *   [x] Login Entreprise
 *   [x] Register User
+*   [x] Email register vérification 
 *   [x] Login
 *   [x] Log out
 *   [x] Use QRcodes to show the user profile
