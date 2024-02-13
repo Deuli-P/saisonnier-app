@@ -2,33 +2,39 @@
 
 <p align="center"><img src="https://socialify.git.ci/Deuli-P/saisonnier-app/image?language=1&amp;owner=1&amp;name=1&amp;stargazers=1&amp;theme=Light" alt="project-image"></p>
 
-<p id="description">It's a social networking application for seasonal workers connecting them with each other and giving them easy access to discounts in their resorts from participating businesses.</p>
 
+<p id='description'> In the first step it's an application to confirm the user is a local worker at the resort to the enterprise according to some discounts with QRcode </p>
+
+<p id="description">My final objective is to build a social networking application for seasonal workers connecting them and giving them easy access to discounts in their resorts from participating businesses. 
+  The application must have features like tchatting, marketplace, cp-driving system, threads, QRcode, job offer...Etc.
+</p>
   
   
 <h2>🧐 Features</h2>
 
-Here're some of the project's best features:
+Here are some of the project's best features:
 
-*   Tchat
-*   Posts
-*   Register
-*   Login
-*   Log out
-*   add Friends
-*   use QRcode
+*   [ ] Tchat
+*   [ ] Posts
+*   [x] Register
+*   [x] Login
+*   [x] Log out
+*   [ ] Add Friends
+*   [x] Use QRcode to show the user profile
+*   [x] show and update opening hours to enterprises
+*   [ ] Updating username to user 
 
 <h2>🛠️ Installation Steps:</h2>
 
-<p>1. clone git repository</p>
+<p>1. clone git repository and <a href="https://github.com/Deuli-P/Backend-Saisonnier">Backend</a></p>
 
-<p>2. On global folder shell</p>
+<p>2. On global folder shell saisonnier-app</p>
 
-```
-npm start --reset-cache or yarn start --reset-cache
-```
+```npm start --reset-cache``` 
+  or 
+  ```yarn start --reset-cache```
 
-<p>3. On api shell</p>
+<p>3. On API shell ( Backend folder )</p>
 
 ```
 yarn start
@@ -49,3 +55,6 @@ Technologies used in the project:
 *   nodemon
 *   jwtoken
 *   MongoDB
+*   Xcode ( Emulator)
+*   Visual Studio Code
+*   Github Copilot
