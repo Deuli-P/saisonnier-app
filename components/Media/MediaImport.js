@@ -1,15 +1,13 @@
 import { Modal, Pressable, StyleSheet, Text, View} from 'react-native'
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { usePost } from '../../app/context/PostContext';
 import { Ionicons } from '@expo/vector-icons';
 import CameraPicker from './Camera';
 import ImportPicker from './Import';
 
-const MediaImport = () => {
-
-     const { media, setMedia } = usePost();
+const MediaImport = ({setModalOpen, modalOpen, accountType}) => {
     
-    const [ modalOpen, setModalOpen ] = React.useState(false);
+    const [ media, setMedia ] = useState(null);
 
     const aspect = [16,9];
     // clique sur element ouvre une modal
@@ -29,21 +27,14 @@ const MediaImport = () => {
         // si annuler alors rien
     // envoyer la photo dans le composant parent
 
-    
-
-    useEffect(() => {
-        console.log("[MEDIA] Media upload dans post:", media);
-    }, [media])
 
   return (
     <>
-    <Pressable onPress={()=>setModalOpen(!modalOpen)} style={styles.pickMediaPressable}>
-        <Text style={styles.pickMediaText}>Pick Media</Text>
-    </Pressable>
     <Modal
         animationType="fade"
         transparent={true}
         visible={modalOpen}
+        onPress={()=>setModalOpen(false)}
         onRequestClose={() => {
             Alert.alert("Modal has been closed.");
             setModalOpen(false);

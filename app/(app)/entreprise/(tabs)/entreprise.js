@@ -16,6 +16,7 @@ import HoraireShow from "../../../../components/Profile/HoraireArray/HoraireShow
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import Avatar from "../../../../components/Profile/Avatar";
 
 
 const entreprise = () => {
@@ -77,45 +78,7 @@ const entreprise = () => {
           position: "relative",
         }}
       >
-        <View 
-          style={{
-          position: "relative",
-          }}
-        >
-          <Image
-            source={
-              data?.image
-              ? { uri: data.image }
-              : require("../../../../assets/logo.png")
-            }
-            style={styles.profileImage}
-            />
-          <Pressable
-            style={{
-              position: "absolute",
-              right: 0,
-              bottom: 0,
-              backgroundColor: "#ff9d2f",
-              padding: 10,
-              borderRadius: 50,
-              width: 40,
-              height: 40,
-              borderColor:"#db6612",
-               borderLeftWidth: 2,
-              justifyContent: "center",
-              alignItems: "center",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-            }}
-            onPress={()=>handleChangePicture()}
-            >
-            <FontAwesome name="picture-o" size={18} color="black" />
-          </Pressable>
-          </View>
+       <Avatar accountType={"entreprise"} url={`https://localhost:8002/entreprise/profile/image/${userId}`} item={entreprise?.image? entreprise.image: data?.image? data.image : null} setDataImage={setData}/>
         <Text stye={styles.name}>
           {data ? data.name : "Nom de l'entreprise"}
         </Text>
