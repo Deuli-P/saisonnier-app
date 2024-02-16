@@ -23,8 +23,8 @@ Here are some of the project's best features:
 *   [x] Log out
 *   [x] Use QRcodes to show the user profile
 *   [x] show and update opening hours to enterprises
+*   [x] Updating username to User 
 *   [ ] Update image profile User and Entreprise
-*   [ ] Updating username to user 
 *   [ ] Tchat
 *   [ ] Create Posts
 *   [ ] Add Image to Post
