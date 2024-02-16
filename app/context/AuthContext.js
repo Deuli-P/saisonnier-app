@@ -106,7 +106,7 @@ export const AuthProvider = ({ children }) => {
             }
         if(userId && authType === "user" && !user ){
                 console.log(`[CONTEXT USEEFFECT] AuthType est ${authType}`);
-                router.push("(app)/user/user")
+                router.push("(app)/user/profile")
 
             }
 

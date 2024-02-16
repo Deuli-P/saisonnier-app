@@ -6,7 +6,7 @@ const _layout = () => {
     return (
       <Tabs>
           <Tabs.Screen 
-            name='user' 
+            name='profile' 
             options={{
               headerShown: false,
               tabBarLabel: "Profile",

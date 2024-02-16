@@ -5,7 +5,7 @@ import QRCode from "react-qr-code";
 
 const qrcode = () => {
   
-  const { logout, userId } = useAuth();
+  const { userId } = useAuth();
 
   return (
     <SafeAreaView style={{alignItems:"center", justifyContent:"center", height:"100%"}}>
@@ -21,9 +21,6 @@ const qrcode = () => {
         : null 
         }
       </View>
-      <Pressable style={{paddingHorizontal:12, paddingVertical: 6, backgroundColor: 'red', borderRadius: 5, marginTop:20}} onPress={()=>logout()}>
-        <Text>Logout</Text>
-      </Pressable>
     </SafeAreaView>
   )
 }
