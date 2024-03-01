@@ -21,7 +21,7 @@ const cardById = () => {
   }, [params])
 
   return (
-    <SafeAreaView style={{alignItems:"center"}}>
+    <SafeAreaView style={{alignItems:"center",backgroundColor: "#242734"}}>
       <View style={{marginTop: 50}}>
         <Image source={{uri: params.image}} style={{width: 200, height: 200, borderRadius: 10}} />
       </View>

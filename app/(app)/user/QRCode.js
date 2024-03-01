@@ -8,13 +8,13 @@ const qrcode = () => {
   const { userId } = useAuth();
 
   return (
-    <SafeAreaView style={{alignItems:"center", justifyContent:"center", height:"100%"}}>
-      <Text>QRCode</Text>
-      <View style={{width:256, height:256}}>
+    <SafeAreaView style={{alignItems:"center", justifyContent:"center", height:"100%",backgroundColor: "#242734",gap:60}}>
+      <Text style={{fontSize: 48, fontWeight:"bold", color: "#ECE1E1"}}>QRCode</Text>
+      <View style={{width:256, height:256, backgroundColor:"red", justifyContent:"center", alignItems:"center"}}>
         { userId ?
           <QRCode
           size={256}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "100%", width: "100%"}}
           value={userId}
           viewBox={`0 0 256 256`}
           />

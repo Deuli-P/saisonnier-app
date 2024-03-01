@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSegments} from "expo-router";
 import { useAuth } from '../../app/context/AuthContext';
 import SubmitButton from './Submit';
 const Logout = () => {
+
+  const rootSegmentType = useSegments()[1];
+
 
     const { logout } = useAuth();
   return (

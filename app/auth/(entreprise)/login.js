@@ -9,14 +9,12 @@ import {
   } from "react-native";
 import { useCallback, useState, useEffect } from "react";
 import { useRouter } from "expo-router";
-import { AntDesign} from "@expo/vector-icons";
 import { useAuth } from "../../context/AuthContext";
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import InputLine from "../../../components/Input/InputLine";
 import Header from "../components/Header/header";
-import { Buffer } from 'buffer';
 import "core-js/stable/atob";
   
   const login = () => {
@@ -73,12 +71,24 @@ import "core-js/stable/atob";
   
     return (
       <SafeAreaView
-        style={{ flex: 1,paddingHorizontal: 15, backgroundColor: "white" }}
-      >
+      style={{ flex: 1, backgroundColor: "#242734"}}
+    >
+      <View style={{paddingHorizontal:15, width:"100%", position:"relative", alignItems:"center", height:"100%"}}>
         <Header/>
         {/* Input Email and Password */}
         <KeyboardAvoidingView style={{
-                                marginTop: 30
+                                marginTop: 50,
+                                width:"100%",
+                                backgroundColor: "#ECE1E1",
+                                paddingVertical: 10,
+                                borderRadius: 10,
+                                shadowOffset:{
+                                  width: 0,
+                                  height: 2,
+                                },
+                                shadowOpacity: 0.7,
+                                shadowRadius: 5,
+                                shadowColor: "#ECE1E1",
                               }}
         >
           <View style={styles.inputContainerGlobal}>
@@ -88,6 +98,7 @@ import "core-js/stable/atob";
               onChangeText={setEmail}
               placeholder="Email"
               security={false}
+              label={"Email"}
               />
             {/* PASSWORD */}
             <InputLine 
@@ -95,34 +106,24 @@ import "core-js/stable/atob";
               security={true}
               onChangeText={setPassword}
               placeholder="Password"
+              label={"Password"}
               />
-          <Pressable style={{width:"100%"}}>
-            <Text style={styles.forgetText}>Forget Password?</Text>
-          </Pressable>
           </View>
+
           <View style={styles.submitContainer}>
-            <Pressable style={styles.submitButton} onPress={()=> handleLogin()} disabled={ isEmpty ? true : false}>
+            <View style={{ bottom: -35, position:"absolute", width:"90%"}}>
+            <Pressable style={[styles.submitButton,{ backgroundColor:"#E37322", borderLeftColor:'#4C7D9F'}]} onPress={()=> handleLogin()} disabled={ isEmpty ? true : false}>
               <Text style={styles.submitButtonText}>Login</Text>
             </Pressable>
-          </View>
-        <View style={{width:"100%", justifyContent:"center", marginTop:10, flexDirection:"row",gap:10, alignItems:"center"}}>
-          <View style={styles.separationContent}></View>
-            <Text style={{marginVertical: 10}}>Or</Text>
-          <View style={styles.separationContent}></View>
-          </View>
-          <View style={styles.submitContainer}>
-          <Pressable style={styles.submitButton} onPress={()=> handleLogin()}>
-              {/* Icon de login */}
-              <AntDesign name="apple1" size={24} color="white" />
-              <Text style={styles.submitButtonText}>Sign in with Apple</Text>
-            </Pressable>
-            <Pressable style={styles.submitButton} onPress={()=> handleLogin()}>
-              {/* Icon de login */}
-              <AntDesign name="googleplus" size={24} color="red" />
-              <Text style={styles.submitButtonText}>Sign in with Google</Text>
-            </Pressable>
+            </View>
           </View>
         </KeyboardAvoidingView>
+          <View style={{alignItems:"center",position:"absolute", bottom:30}}>
+            <Pressable style={{width:"100%"}}>
+              <Text style={styles.forgetText}>Forget Password?</Text>
+            </Pressable>
+          </View>
+        </View>
       </SafeAreaView>
     );
   };
@@ -147,7 +148,6 @@ import "core-js/stable/atob";
       borderRadius: 3,
     },
     submitButton: {
-      backgroundColor: "#ff9d2f",
       paddingHorizontal: 5,
       paddingVertical: 12,
       borderRadius: 25,
@@ -155,8 +155,9 @@ import "core-js/stable/atob";
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      width: 300,
+      width: "100%",
       gap: 15,
+      borderLeftWidth: 3,
     },
     submitButtonText: {
       color: "white",
@@ -165,7 +166,7 @@ import "core-js/stable/atob";
     },
     forgetText: {
       color: "#ff9d2f",
-      marginTop: 5,
+      fontSize:18,
     },
     cliclableContainer: {
       flexDirection: "row",
@@ -179,13 +180,18 @@ import "core-js/stable/atob";
       fontSize: 18,
     },
     submitContainer:{
-      alignItems: "center",
+      position:"relative",
+      justifyContent:"center",
+      alignItems:"center",
+      position: "relative",
+      height: 30,
+
     },
     separationContent:{
       maxWidth: 130,
       width: "40%",
       height:1,
-      backgroundColor:"gray",
+      backgroundColor:"#ECE1E1",
     }
   });
   

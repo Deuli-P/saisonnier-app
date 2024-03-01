@@ -12,7 +12,7 @@ import { set } from 'react-hook-form';
 
 const user = () => {
 
-  const { userId, setUser, user} = useAuth();
+  const { userId, setUser, user, logout} = useAuth();
 
   const [ data, setData ] = useState(null);
 
@@ -77,17 +77,26 @@ const user = () => {
     setUsernameInputDisabled(false);
   }
 
+  const handleOpenMediaModal = () => {
+    console.log('open media modal')
+  }
+
   return (
-    <SafeAreaView style={{flex:1, alignItems:"center"}}>
-      <Image source={data?.image ? {uri: data?.image} : require('../../../assets/logo.png')} style={{width: 170, height:170, marginTop: 40}}/>
+    <SafeAreaView style={{flex:1, alignItems:"center",backgroundColor: "#242734"}}>
+      <View style={{width: 186, height:186, marginTop: 40,position:"relative"}}>
+        <Image source={data?.image ? {uri: data?.image} : require('../../../assets/logo.png')} style={{width:"100%",height:"100%", borderRadius:30}}/>
+        <Pressable style={[styles.usernameIconPressable,{position: "absolute",bottom:-10, right:5}]} onPress={()=>handleOpenMediaModal()}>
+          <FontAwesome name="pencil" size={24} color="#191818" />
+        </Pressable>
+      </View>
       <View style={{width: "80%", marginVertical:20, gap:15}}>
         <InputFake value={data?.firstname} title="Firstname" />
         <InputFake value={data?.lastname} title="Lastname" />
         <View style={styles.usernameContainer} >
           <View style={{width:"90%",alignItems:"flex-start", position:"relative",gap:3}}>
-            <Text style={{fontSize:18}}>Username:</Text>
+            <Text style={{fontSize:18, color:"#ECE1E1"}}>Username:</Text>
           <TextInput 
-            style={[styles.usernameInput,{backgroundColor: usernameInputDisabled? "gray" : "white", borderColor: usernameInputDisabled? "transparent" : "gray", borderWidth: 1, borderRadius:5}]} 
+            style={[styles.usernameInput,{backgroundColor: usernameInputDisabled? '#767592' : "#BBBBC0", borderRadius:5}]} 
             value={username} 
             onChangeText={(text)=>setUsername(text)}
             editable={usernameInputDisabled? false : true}
@@ -97,20 +106,22 @@ const user = () => {
           { usernameInputDisabled ?
             (
               <Pressable style={styles.usernameIconPressable} onPress={()=>handleOpenUpdateUsername()}>
-                <FontAwesome name="pencil" size={24} color="black" />
+                <FontAwesome name="pencil" size={24} color="#191818" />
               </Pressable>
             )
           : 
             (
               <Pressable style={styles.usernameIconPressable} onPress={()=>handleUsernameSubmit()}>
-                <FontAwesome name="check" size={24} color="black" />
+                <FontAwesome name="check" size={24} color="#191818" />
               </Pressable>
             )
           }
         </View>
       </View>
       <View style={{width: "100%", alignItems: "center"}}>
-        <Logout />
+        <Pressable onPress={()=> logout()} style={[styles.submitButton,{ backgroundColor:"#4C7D9F", borderLeftColor:'#E37322'}]}>
+          <Text style={styles.submitButtonText}>Logout</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   )
@@ -126,15 +137,32 @@ const styles = StyleSheet.create({
     gap:20
   },
   usernameIconPressable:{
-    padding: 10,
+    padding: 8,
     borderRadius: 50,
-    backgroundColor: "#ff9d2f",
-    borderColor: "#db6612",
+    backgroundColor: "#4C7D9F",
+    borderColor: "#E37322",
     borderLeftWidth: 2,
     marginTop:22
   },
   usernameInput:{
     width: "100%",
     padding: 10,
-  }
+  },
+  submitButton: {
+    paddingHorizontal: 5,
+    paddingVertical: 12,
+    borderRadius: 25,
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "50%",
+    gap: 15,
+    borderLeftWidth: 3,
+  },
+  submitButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+  },
 })

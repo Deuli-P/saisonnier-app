@@ -20,9 +20,10 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 18,
+        color: "#ECE1E1"
     },
     inputContainer: {
-        backgroundColor: 'gray',
+        backgroundColor: '#767592',
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 5,

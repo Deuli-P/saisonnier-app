@@ -2,8 +2,8 @@ import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
 import {useEffect, useState } from 'react';
 import { useRouter, useSegments } from 'expo-router';
 import Animated, { FadeIn } from 'react-native-reanimated';
-import { Entypo } from '@expo/vector-icons';
-const Header = () => {
+import { AntDesign } from '@expo/vector-icons';
+const Header = ({ url, formType, accountType}) => {
 
     const router = useRouter();
     const rootSegmentType = useSegments()[1];
@@ -43,25 +43,23 @@ const Header = () => {
   return (
     <View style={styles.logoContainer}>
         <View style={{flexDirection:"row", alignItems:"center", justifyContent:'space-between'}}>
-            <Image
-            style={styles.logo}
-            source={
-                require("../../../../assets/logo.png")
-            }
-            />
-            <Pressable onPress={()=> router.back()} style={{marginRight: 30,}}>
-                <Entypo name="cross" size={44} color="black"/>
+           
+            <Pressable onPress={()=> router.push("onBoarding")}>
+                <AntDesign name="close" size={44} color="#ECE1E1"/>
             </Pressable>
-        </View>
-          <Text style={styles.titleText}>Sign up on {rootSegmentType==='(entreprise)'? "Entreprise": "User" } account</Text>
-          <View style={{flexDirection:"row", alignItems: "center"}}>
-            <Text>or </Text>
-          <Pressable onPress={() => handleRedirect()}>
+            <Pressable onPress={() => handleRedirect()}>
             <Animated.Text style={styles.redirectionText} entering={FadeIn.duration(200)}>
               {rootSegmentForm === "register"? "Sign in" : "Sign up"}
             </Animated.Text>
           </Pressable>
-          </View>
+        </View>
+        <View>
+          <Text style={[styles.titleText, {color: "#ECE1E1",textAlign:"left"}]}>
+            {rootSegmentForm === "register"? "Register" : "Login"}
+          </Text>
+            <Text style={[styles.titleText, {color:  rootSegmentType==='(entreprise)'? "#EE9E25": "#7D9AAA", textAlign:"right" }]}>
+              {rootSegmentType==='(entreprise)'? "Entreprise": "User" }</Text>
+        </View>
         </View>
   )
 }
@@ -70,26 +68,16 @@ export default Header
 
 const styles = StyleSheet.create({
     logoContainer: {
-        marginLeft: 25,
-        marginTop: 30,
-        justifyContent: "start",
-      },
-      logo: {
-        width: 70,
-        height: 70,
-        resizeMode: "contain",
-        borderRadius: 100,
-        marginBottom: 10,
+        marginTop: 20,
+        width: "100%",
       },
     redirectionText: {
-        color: "#ff9d2f",
+        color: "#E37322",
         fontWeight: "bold",
-        fontSize: 18,
+        fontSize: 24,
       },
       titleText: {
-        fontSize: 24,
+        fontSize: 58,
         fontWeight: "bold",
-        marginTop: 10,
-        color: "#fca311",
       },
 })

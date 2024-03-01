@@ -15,6 +15,9 @@ const Avatar = ({item, url, setDataImage, accountType}) => {
 
     const image = item ? item : null;
 
+    const [ primary, setPrimary ] = useState("#4C7D9F");
+    const [ secondary, setSecondary ] = useState("#E37322");
+
     // handle modification picture
         // ouvre une modal pour choisir entre prendre une photo ou choisir une photo
         // envoie l'image a l'api
@@ -26,10 +29,10 @@ const Avatar = ({item, url, setDataImage, accountType}) => {
         setDataImage(addImage)
         if(accountType === "user"){
             setUser(addImage)
-        }
-        else if(accountType === "entreprise"){
+          }
+          else if(accountType === "entreprise"){
             setEntreprise(addImage)
-        }
+          }
     }
 
     const addImage = (prev)=>{
@@ -37,28 +40,27 @@ const Avatar = ({item, url, setDataImage, accountType}) => {
     }
 
 
+    useEffect(()=>{
+      if(accountType === "user"){
+        setPrimary("#4C7D9F")
+        setSecondary("#E37322")
+      }
+      else if(accountType === "entreprise"){
+        setPrimary("#E37322")
+        setSecondary('#4C7D9F')
+      }
+    },[])
+    
     const [ modalOpen , setModalOpen ] = useState(false);
 
     return (
-        <View 
-          style={styles.container}
-        >
-          <Image
-            source={
-              image
-              ? { uri: image}
-              : require("../../assets/logo.png")
-            }
-            style={styles.profileImage}
-            />
-          <Pressable
-            style={styles.pressableContainer}
-            onPress={()=>handleChangePicture()}
-            >
-            <FontAwesome name="picture-o" size={18} color="black" />
-          </Pressable>
-            <MediaImport setmodalOpen={setModalOpen} modalOpen={modalOpen} accountType={accountType}/>
-          </View>
+      <View style={{width: 186, height:186, marginTop: 40,position:"relative"}}>
+        <Image source={item ? {uri: image} : require('../../assets/logo.png')} style={{width:"100%",height:"100%", borderRadius:30}}/>
+        <Pressable style={[styles.usernameIconPressable,{position: "absolute",bottom:-10, right:5,backgroundColor: primary, borderColor: secondary,}]} onPress={()=>handleOpenMediaModal()}>
+          <FontAwesome name="pencil" size={24} color="#191818" />
+        </Pressable>
+        <MediaImport setmodalOpen={setModalOpen} modalOpen={modalOpen} accountType={accountType}/>
+      </View>
   )
 }
 
@@ -66,8 +68,8 @@ export default Avatar
 
 const styles = StyleSheet.create({
     profileImage:{
-        width: 150,
-        height: 150,
+        width: "100%",
+        height: "100%",
         borderRadius: 25,
     },
     pressableContainer:{
@@ -92,5 +94,12 @@ const styles = StyleSheet.create({
       },
     container:{
         position: "relative",
-    }
+        marginTop:40
+    },
+    usernameIconPressable:{
+      padding: 8,
+      borderRadius: 50,
+      borderLeftWidth: 2,
+      marginTop:22
+    },
 })

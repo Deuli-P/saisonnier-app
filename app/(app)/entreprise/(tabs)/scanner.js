@@ -42,7 +42,7 @@ export default function scanner() {
               address: userScanned.address,
             }
             });
-          }, 1000);
+          }, 300);
     setScanState("idle");
   }
 
@@ -69,7 +69,7 @@ export default function scanner() {
         console.log("[SCANNER] Axios success:", res.data.user);
         setTimeout(() => {
           renderCheck(res.data.user);
-        }, 1000);
+        }, 500);
       })
     }
     catch(err){
@@ -131,11 +131,13 @@ export default function scanner() {
       <View 
         style={[
             styles.stateContainer,
-            {backgroundColor:
-              scanState === "processing" ? "gray":
-              scanState === "error"? "pink":
-              scanState === "validated" ? "#2AAA8A": 
-              "yellow"
+            {
+              backgroundColor:
+                scanState === "error"? "#A54545":
+                scanState === "validated" ? "#83A95D": 
+                "#EAC464",
+              borderLeftColor:"red",
+              borderLeftWidth:2
             }
         ]}
       >
@@ -144,17 +146,17 @@ export default function scanner() {
             ) :
             scanState === "validated" ? (
               <Animated.View entering={BounceIn.duration(500)} exiting={BounceOut.duration(200)} style={{ justifyContent:"center", alignItems:"center"}}>
-                <AntDesign name="check" size={60} color="green" />
+                <AntDesign name="check" size={52} color="#191818" />
               </Animated.View>
               ) :
             scanState === "error" ? (
               <Animated.View entering={BounceIn.duration(500)} exiting={BounceOut.duration(200)} style={{ justifyContent:"center", alignItems:"center"}}>
-                <MaterialIcons name="error" size={60} color="red" />
+                <MaterialIcons name="error" size={52} color="#191818" />
               </Animated.View>
               ) : 
               (
                 <Pressable onPress={()=>handleScan(testData)} style={{justifyContent:"center", alignItems:"center"}}>
-                  <Text>Scan</Text>
+                  <Text style={{color:"#191818",fontSize: 26}}>Scan</Text>
                 </Pressable>
               )
             }
@@ -168,6 +170,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: "#242734"
   },
   camera: {
     width: "100%",
@@ -188,17 +191,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: 'bold',
-    color: 'black',
-    marginTop: 100,
+    color: "#ECE1E1",
+    marginTop: 90,
   },
   cameraContainer: {
     width: 250,
     height: 250,
-    borderRadius: 10,
+    borderRadius: 20,
     borderWidth: 2,
-    borderColor: 'blue',
+    borderColor: '#E37322',
     overflow: 'hidden',
     marginTop: 30,
   },
@@ -211,8 +214,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     borderLeftWidth: 4,
     borderTopWidth: 4,
     borderTopLeftRadius: 10,
@@ -222,8 +225,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     borderRightWidth: 4,
     borderTopWidth: 4,
     borderTopRightRadius: 10,
@@ -233,8 +236,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     left: 0,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     borderLeftWidth: 4,
     borderBottomWidth: 4,
     borderBottomLeftRadius: 10,
@@ -244,8 +247,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     borderRightWidth: 4,
     borderBottomWidth: 4,
     borderBottomRightRadius: 10,
@@ -254,7 +257,6 @@ const styles = StyleSheet.create({
   stateContainer: {
     width: 70,
     height: 70,
-    marginTop: 20,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",

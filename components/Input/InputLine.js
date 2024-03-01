@@ -1,22 +1,37 @@
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, TextInput, View, Text } from 'react-native'
 import { useState } from 'react'
 
-const InputLine = ({width, onChangeText, value, placeholder, security,required, disabled}) => {
+const InputLine = ({width, onChangeText, value, placeholder, security,required, disabled,label}) => {
 
     const [focused, setFocused] = useState(false);
+
     const styles = StyleSheet.create({
         input: {
-            color: focused ?"black": "gray",
+            color: disabled ?"#D9C5C5" :"#1C1C1C",
             width: "100%",
             paddingHorizontal: 10,
             paddingVertical: 5,
-            borderColor: "#ff9d2f",
-            borderWidth: 1,
             borderRadius: 3,
+            backgroundColor: disabled ?"#767592" :"#BBBBC0",
           },
     })
 
   return (
+
+          <View
+          style={{
+            width: "100%",
+            justifyContent: "start",
+            gap: 4,
+          }}
+          >
+            <Text
+            style={{
+
+            }}
+            >
+              {label} :
+            </Text>
             <TextInput
               style={styles.input}
               value={value}
@@ -28,7 +43,9 @@ const InputLine = ({width, onChangeText, value, placeholder, security,required, 
               onEndEditing={() => setFocused(false)}
               required={required}
               disabled={disabled}
-            />
+              />
+          </View>
+
   )
 }
 

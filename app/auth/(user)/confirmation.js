@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#242734",
+
   },
   confirmationContainer:{
     width: "70%",
-    backgroundColor: "#5e7940",
+    backgroundColor: "#ECE1E1",
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderRadius: 20,

@@ -87,114 +87,92 @@ const register = () => {
     };
 
   return (
-    <SafeAreaView style={{flex:1, backgroundColor:"white", paddingHorizontal: 15}}>
-        <Header />
-        <ScrollView>
-            <KeyboardAvoidingView style={{width:"100%"}}>
-            <Animated.View style={styles.inputContainer}  entering={FadeInRight.duration(700).delay(150)}>
-                    <View style={styles.inputContent}>
-                        <Text>E-mail</Text>
+    <SafeAreaView style={{flex:1, backgroundColor:"#242734",alignItems:"center"}}>
+        <ScrollView style={{width:"100%", paddingHorizontal: 15}}>
+            <Header />
+            <KeyboardAvoidingView>
+            <Animated.View style={{width:"100%",alignItems:"center"}}  entering={FadeInRight.duration(700).delay(150)}>
+                <View style={styles.inputContainer}>
+                    <View style={{width:"85%",gap:11}}>
                         <InputLine 
                             value={email}
                             onChangeText={setEmail}
                             placeholder="E-mail"
                             security={false}
                             required={true}
-                        />
-                    </View >
-                    <View style={styles.inputContent}>
-                        <Text>Password</Text>
+                            label={"Email"}
+                            />
+                        <View style={styles.inputContent}>
+                            <InputLine 
+                                value={password}
+                                onChangeText={setPassword}
+                                placeholder="Password"
+                                security={true}
+                                required={true}
+                                label={"Password"}
+                                />
+                            <Text style={{color: handlePasswordRegex ? "red": "green"}}>Input Password 8 to 16 characters which contain at least 1 number, 1 uppercase.</Text>
+                        </View>
+                        <View style={styles.inputContent}>
+                            <InputLine 
+                                value={confirmPassword}
+                                onChangeText={setConfirmPassword}
+                                placeholder="Password"
+                                security={true}
+                                required={true}
+                                label={"Confirm Password"}
+                                />
+                            {passwordMatch? null : <Text style={{color: "red"}}>Password does not match</Text>}
+                        </View>
                         <InputLine 
-                            value={password}
-                            onChangeText={setPassword}
-                            placeholder="Password"
-                            security={true}
+                            value={name}
+                            onChangeText={setName}
+                            placeholder="Firstname"
+                            security={false}
                             required={true}
-                        />
-                        <Text>Input Password 8 to 16 characters which contain at least 1 number, 1 uppercase.</Text>
-                    </View>
-                    <View style={styles.inputContent}>
-                        <Text>Confirm password</Text>
-                        <InputLine 
-                            value={confirmPassword}
-                            onChangeText={setConfirmPassword}
-                            placeholder="Password"
-                            security={true}
-                            required={true}
-                        />
-                        {passwordMatch? null : <Text style={{color: "red"}}>Password does not match</Text>}
-                    </View>
-                    <View style={styles.inputContent}>
-                    <Text>
-                        Name
-                    </Text>
-                    <InputLine 
-                        value={name}
-                        onChangeText={setName}
-                        placeholder="Firstname"
-                        security={false}
-                        required={true}
-                    />
-                    </View>
-                    <View style={styles.inputContent}>
-                        <Text>
-                            Propietaire
-                        </Text>
+                            label={"Name"}
+                            />
                         <InputLine 
                             value={proprietaire}
                             onChangeText={setProprietaire}
                             placeholder="Lastname"
                             security={false}
                             required={true}
-                        />
-                    </View>
-                    <View style={styles.inputContent}>
-                        <Text 
-                        >
-                            Address
-                        </Text>
+                            label={"Owner"}
+                            />
                         <InputLine 
                             value={address}
                             onChangeText={setAddress}
                             placeholder="Address"
                             security={false}
                             required={true}
-                        />
-                    </View>
-                    <View style={styles.inputContent}>
-                        <Text 
-                        >
-                            SIREN
-                        </Text>
+                            label={"Address"}
+                            />
                         <InputLine 
                             value={SIREN}
                             onChangeText={setSIREN}
                             placeholder="SIREN"
                             security={false}
                             required={true}
-                        />
+                            label={"SIREN"}
+                            />
+                        <Text style={{textAlign:"left", marginBottom: 20}}> 
+                            By registering, you agree to the
+                            <Text style={{color: "blue",textAlign:"justify"}} onPress={()=> console.log("click Term of use")}> Terms of use </Text>
+                            and the utilization of your data by
+                            <Text style={{color: "blue"}} onPress={()=> console.log("click Our Partners")}> our partners </Text>
+                            .
+                        </Text>
+                        </View>
                     </View>
-                    <Text style={{marginTop: 20,marginHorizontal:10}}> 
-                    En cliquant sur Agree and sign up or on Continue, vous agree the 
-                        <Pressable>
-                            <Text style={{color: "blue"}}> Terms of Service </Text>
-                        </Pressable>
-                        , the 
-                        <Pressable>
-                            <Text style={{color: "blue"}}> Confidential service</Text>
-                        </Pressable>
-                        and the 
-                        <Pressable>
-                            <Text style={{color: "blue"}}> Cookies service </Text>
-                        </Pressable>
-                        of the application.
-                    </Text>
                 </Animated.View>
             </KeyboardAvoidingView>
             <View style={styles.submitContainer}>
-                <Pressable style={styles.submitButton}  onPress={()=>handleRegister()} disabled={ !isEmpty? false : true}>
-                    <Text style={styles.submitButtonText}>Agree and sign up</Text>
-                </Pressable>
+                <View style={{ bottom: 30, position:"absolute", width:"80%"}}>
+                    <Pressable style={[styles.submitButton,{ backgroundColor:"#E37322", borderLeftColor:'#4C7D9F'}]} onPress={()=> handleRegister()} >
+                        <Text style={styles.submitButtonText}>Agree and Register</Text>
+                    </Pressable>
+                </View>
             </View>
         </ScrollView>
     </SafeAreaView>
@@ -205,14 +183,26 @@ export default register
 
 const styles = StyleSheet.create({
     inputContainer:{
+        marginVertical: 30,
+        backgroundColor: "#ECE1E1",
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+        borderRadius: 10,
+        shadowOffset:{
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.7,
+        shadowRadius: 5,
+        shadowColor: "#ECE1E1",
+        width: "95%",
+        justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: 10,
-        gap: 15,
     },
     inputContent:{
         justifyContent: "start",
         gap: 4,
-        width: "80%",
+        width: "100%",
     },
     input:{
         color:"gray",
@@ -221,23 +211,27 @@ const styles = StyleSheet.create({
     inputIcon:{
         marginLeft: 10,
     },
-    submitButton:{
-        backgroundColor: "#ff9d2f",
-        width: 200,
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 30,
+    submitButton: {
+        paddingHorizontal: 5,
+        paddingVertical: 12,
+        borderRadius: 25,
+        marginTop: 20,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        gap: 15,
-    },
-    submitButtonText:{
+        width: "100%",
+        borderLeftWidth: 3,
+      },
+      submitButtonText: {
         color: "white",
         fontWeight: "bold",
-    },
+        fontSize: 16,
+      },
     submitContainer:{
-        alignItems: "center",
-        marginBottom: 30,
-    },
+        position:"relative",
+        justifyContent:"center",
+        alignItems:"center",
+        position: "relative",
+        height: 30,
+      },
 })

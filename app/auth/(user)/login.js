@@ -74,11 +74,26 @@ const login = () => {
 
   return (
     <SafeAreaView
-      style={{ flex: 1,paddingHorizontal: 15, backgroundColor: "white" }}
-    >
-      <Header />
+    style={{ flex: 1, backgroundColor: "#242734"}}
+  >
+    <View style={{paddingHorizontal:15, width:"100%", position:"relative", alignItems:"center", height:"100%"}}>
+      <Header/>
       {/* Input Email and Password */}
-      <KeyboardAvoidingView style={{marginTop: 30}}>
+      <KeyboardAvoidingView style={{
+                              marginTop: 50,
+                              width:"100%",
+                              backgroundColor: "#ECE1E1",
+                              paddingVertical: 10,
+                              borderRadius: 10,
+                              shadowOffset:{
+                                width: 0,
+                                height: 2,
+                              },
+                              shadowOpacity: 0.7,
+                              shadowRadius: 5,
+                              shadowColor: "#ECE1E1",
+                            }}
+      >
         <View style={styles.inputContainerGlobal}>
           {/* EMAIL */}
           <InputLine 
@@ -86,6 +101,7 @@ const login = () => {
             onChangeText={setEmail}
             placeholder="Email"
             security={false}
+            label={"Email"}
             />
           {/* PASSWORD */}
           <InputLine 
@@ -93,33 +109,24 @@ const login = () => {
             security={true}
             onChangeText={setPassword}
             placeholder="Password"
+            label={"Password"}
             />
-        <Pressable style={{width:"100%"}}>
-          <Text style={styles.forgetText}>Forget Password?</Text>
-        </Pressable>
-        { !errorCode ? null : <errorModal message={errorCode} />}
-        </View>
-        <View style={styles.submitContainer}>
-          <Pressable style={styles.submitButton} onPress={()=> handleLogin()} disabled={ isEmpty ? true : false}>
-            <Text style={styles.submitButtonText}>Login</Text>
+          { !errorCode ? null : <errorModal message={errorCode} />}
+          </View>
+          <View style={styles.submitContainer}>
+              <View style={{ bottom: -35, position:"absolute", width:"90%"}}>
+              <Pressable style={[styles.submitButton,{ backgroundColor:"#4C7D9F", borderLeftColor:'#E37322'}]} onPress={()=> handleLogin()} disabled={ isEmpty ? true : false}>
+                <Text style={styles.submitButtonText}>Login</Text>
+              </Pressable>
+              </View>
+            </View>
+        </KeyboardAvoidingView>
+        <View style={{alignItems:"center",position:"absolute", bottom:30}}>
+          <Pressable style={{width:"100%"}}>
+            <Text style={styles.forgetText}>Forget Password?</Text>
           </Pressable>
         </View>
-      <View style={{width:"100%", justifyContent:"center", marginTop:10, flexDirection:"row",gap:10, alignItems:"center"}}>
-        <View style={styles.separationContent}></View>
-          <Text style={{marginVertical: 10}}>Or</Text>
-        <View style={styles.separationContent}></View>
-        </View>
-        <View style={styles.submitContainer}>
-        <Pressable style={styles.submitButton} onPress={()=> console.log("[LOGIN]Login with APPLE")}>
-            <AntDesign name="apple1" size={24} color="white" />
-            <Text style={styles.submitButtonText}>Sign in with Apple</Text>
-          </Pressable>
-          <Pressable style={styles.submitButton} onPress={()=> console.log("[LOGIN]Login with GOOGLE")}>
-            <AntDesign name="googleplus" size={24} color="red" />
-            <Text style={styles.submitButtonText}>Sign in with Google</Text>
-          </Pressable>
-        </View>
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -132,10 +139,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 10,
-    paddingHorizontal:"8%",
-    position: "relative",
+    paddingHorizontal:"8%"
   },
-
   input: {
     color: "gray",
     width: "80%",
@@ -146,7 +151,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   submitButton: {
-    backgroundColor: "#ff9d2f",
     paddingHorizontal: 5,
     paddingVertical: 12,
     borderRadius: 25,
@@ -154,8 +158,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    width: 300,
+    width: "100%",
     gap: 15,
+    borderLeftWidth: 3,
   },
   submitButtonText: {
     color: "white",
@@ -164,7 +169,7 @@ const styles = StyleSheet.create({
   },
   forgetText: {
     color: "#ff9d2f",
-    marginTop: 5,
+    fontSize:18,
   },
   cliclableContainer: {
     flexDirection: "row",
@@ -172,14 +177,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 300,
   },
-
-  submitContainer:{
-    alignItems: "center",
+  redirectionText: {
+    color: "#ff9d2f",
+    fontWeight: "bold",
+    fontSize: 18,
   },
-  separationContent:{
-    maxWidth: 130,
-    width: "40%",
-    height:1,
-    backgroundColor:"gray",
-  }
+  submitContainer:{
+    position:"relative",
+    justifyContent:"center",
+    alignItems:"center",
+    position: "relative",
+    height: 30,
+
+  },
 });

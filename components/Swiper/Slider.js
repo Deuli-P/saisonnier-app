@@ -15,7 +15,7 @@ const swiperRef = useRef(null);
     showsButtons={false}
     loop={false}
     dotColor='white'
-    activeDotColor='#ff9d2f'
+    activeDotColor='#B1A8A8'
     activeDotStyle={styles.activeDot}
     dotStyle={styles.unactiveDot} // Style for dots
   >
@@ -47,18 +47,14 @@ export default Slider
 
 const styles = StyleSheet.create({
     unactiveDot: {
-        borderColor: "#ff9d2f",
-        borderWidth: 1,
-        height: 20, // Set the desired height for the dots
-        width: 20, // Set the desired width for the dots
+        height: 10, // Set the desired height for the dots
+        width: 10, // Set the desired width for the dots
         borderRadius: 25, // Set border radius for rounded dots
         marginHorizontal: 8, // Set the horizontal margin between dots
     },
     activeDot: {
-        borderColor: "#ff9d2f",
-        borderWidth: 1,
-        height: 20, // Set the desired height for the dots
-        width: 20, // Set the desired width for the dots
+        height: 15, // Set the desired height for the dots
+        width: 15, // Set the desired width for the dots
         borderRadius: 15, // Set border radius for rounded dots
         marginHorizontal: 3, // Set the horizontal margin between dots
       },
@@ -66,7 +62,7 @@ const styles = StyleSheet.create({
         width: "90%",
         resizeMode: "contain",
         borderRadius: 10,
-        maxHeight: 350,
+        maxHeight: 300,
     },
     container:{
         width: "100%",
@@ -78,7 +74,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         textAlign: "center",
-        bottom: 45,
+        bottom: 25,
+        color: "#D9C5C5",
     },
     contentContainer:{
         flexDirection: "column",

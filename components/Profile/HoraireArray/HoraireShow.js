@@ -12,25 +12,26 @@ import axios from "axios";
 import { useAuth } from "../../../app/context/AuthContext";
 import { FontAwesome } from "@expo/vector-icons";
 
-const HoraireShow = ({data}) => {
-
+const HoraireShow = ({ data }) => {
   const { userId } = useAuth();
 
-  const emptyHoraires =  
-  [
+  const emptyHoraires = [
     { morning: "", afternoon: "" },
     { morning: "", afternoon: "" },
     { morning: "", afternoon: "" },
     { morning: "", afternoon: "" },
     { morning: "", afternoon: "" },
     { morning: "", afternoon: "" },
-    { morning: "", afternoon: "" }
+    { morning: "", afternoon: "" },
   ];
   const [horaireLoaded, setHoraireLoaded] = useState(false);
   const [openModalHoraire, setOpenModalHoraire] = useState(false);
-  const [ horaires, setHoraires ] = useState( Array.isArray(data)? data : emptyHoraires );
-  const [ newHoraires, setNewHoraires ]= useState( Array.isArray(data)? data : emptyHoraires);
-
+  const [horaires, setHoraires] = useState(
+    Array.isArray(data) ? data : emptyHoraires
+  );
+  const [newHoraires, setNewHoraires] = useState(
+    Array.isArray(data) ? data : emptyHoraires
+  );
 
   const days = [
     "Monday",
@@ -42,17 +43,15 @@ const HoraireShow = ({data}) => {
     "Sunday",
   ];
 
-
-  useEffect(()=>{
-    if(data && horaires === data ){
+  useEffect(() => {
+    if (data && horaires === data) {
       setHoraireLoaded(true);
-    }
-    else{
-      setTimeout(()=>{
+    } else {
+      setTimeout(() => {
         setHoraireLoaded(true);
-      }, 1000)
+      }, 1000);
     }
-  },[data, horaires])
+  }, [data, horaires]);
 
   const handleMorning = (text, dayNumber) => {
     const textTrim = text.trim().toLowerCase();
@@ -104,12 +103,12 @@ const HoraireShow = ({data}) => {
   };
 
   const handleOpenModalHoraire = () => {
-      setOpenModalHoraire(true);
+    setOpenModalHoraire(true);
   };
 
   const handleCloseModalHoraire = () => {
     setOpenModalHoraire(false);
-  }
+  };
 
   return (
     <View
@@ -120,21 +119,21 @@ const HoraireShow = ({data}) => {
         position: "relative",
       }}
     >
-      <View style={{flexDirection:"row", alignItems:"center",gap: 10}}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>Horaires:</Text>
-          <Pressable
-            style={{
-              padding: 10,
-              borderRadius: 50,
-              backgroundColor: "#ff9d2f",
-              zIndex: 100,
-              borderColor: "#db6612",
-              borderLeftWidth: 2,
-            }}
-            onPress={() => handleOpenModalHoraire()}
-            >
-            <FontAwesome name="pencil" size={20} color="white" />
-          </Pressable>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+        <Text style={{ fontSize: 24, fontWeight: "bold", color:'#ECE1E1' }}>Openning Hours</Text>
+        <Pressable
+          style={{
+            padding: 10,
+            borderRadius: 50,
+            backgroundColor: "#E37322",
+            zIndex: 100,
+            borderColor: "#4C7D9F",
+            borderLeftWidth: 2,
+          }}
+          onPress={() => handleOpenModalHoraire()}
+        >
+          <FontAwesome name="pencil" size={20} color="white" />
+        </Pressable>
       </View>
       <View style={stylesArray.container}>
         {!horaireLoaded ? (
@@ -155,7 +154,7 @@ const HoraireShow = ({data}) => {
             <View style={stylesArray.ligne} key={`row-${days[index]}`}>
               <View
                 style={{
-                  width: "30%",
+                  width: "40%",
                   alignItems: "flex-start",
                   textAlign: "left",
                 }}
@@ -163,31 +162,32 @@ const HoraireShow = ({data}) => {
                 <Text style={stylesArray.dayText}>{days[index]}</Text>
               </View>
               <View style={stylesArray.timeContainerGlobal}>
-                {item.morning === "close" && item.afternoon === "close" ? 
-                (
+                {item.morning === "close" && item.afternoon === "close" ? (
                   <Text style={stylesArray.closeText}>Close</Text>
-                ) : 
-                (
+                ) : (
                   <>
                     <View
                       style={[
                         stylesArray.timeContainer,
-                        { backgroundColor: "green" },
+                        { backgroundColor: "#71A9E9" , fontSize:20},
                       ]}
                     >
-                      <Text style={stylesArray.timeText}>{item.morning ? item.morning : "???"}</Text>
+                      <Text style={stylesArray.timeText}>
+                        {item.morning ? item.morning : "???"}
+                      </Text>
                     </View>
                     <View
                       style={[
                         stylesArray.timeContainer,
-                        { backgroundColor: "orange" },
+                        { backgroundColor: "#EAC12E",fontSize:20 },
                       ]}
                     >
-                      <Text style={stylesArray.timeText}>{item.afternoon ? item.afternoon : "???"}</Text>
+                      <Text style={stylesArray.timeText}>
+                        {item.afternoon ? item.afternoon : "???"}
+                      </Text>
                     </View>
                   </>
-                )
-                }
+                )}
               </View>
             </View>
           ))
@@ -201,59 +201,69 @@ const HoraireShow = ({data}) => {
       >
         <View style={stylesUpdate.modal}>
           <View style={stylesUpdate.container}>
-            <View style={{ width: "100%", alignItems: "center"}}>
-              <Text style={{ fontSize: 20, fontWeight: "bold", marginTop:10 }}>Update Horaires:</Text>
+            <View style={{ width: "100%", alignItems: "center" }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 10, color:"#ECE1E1" }}>
+                Update Hours
+              </Text>
               <View style={stylesUpdate.Array}>
-                { horaireLoaded?
-                  newHoraires?.map((item, index) => (
-                    <View style={stylesUpdate.ligneContainer} key={`update-${days[index]}`}>
-                    <View style={stylesArray.dayContainer}>
-                    <Text style={stylesArray.dayText}>{days[index]}</Text>
-                    </View>
-                    <View style={stylesUpdate.inputContainer}>
-                    <TextInput
-                    style={stylesUpdate.textInput}
-                    value={item.morning}
-                    onChangeText={(text) => handleMorning(text, index)}
-                    />
-                    <TextInput
-                    style={stylesUpdate.textInput}
-                    value={item.afternoon}
-                    onChangeText={(text) => handleAfternoon(text, index)}
-                    />
-                    </View>
-                    </View>
+                {horaireLoaded
+                  ? newHoraires?.map((item, index) => (
+                      <View
+                        style={stylesUpdate.ligneContainer}
+                        key={`update-${days[index]}`}
+                      >
+                        <View style={stylesArray.dayContainer}>
+                          <Text style={stylesUpdate.dayTextInput}>{days[index]}</Text>
+                        </View>
+                        <View style={stylesUpdate.inputContainer}>
+                          <TextInput
+                            style={stylesUpdate.textInput}
+                            value={item.morning}
+                            onChangeText={(text) => handleMorning(text, index)}
+                          />
+                          <TextInput
+                            style={stylesUpdate.textInput}
+                            value={item.afternoon}
+                            onChangeText={(text) =>
+                              handleAfternoon(text, index)
+                            }
+                          />
+                        </View>
+                      </View>
                     ))
-                    : null }
-                  </View>
-                  </View>
-                  <View
-                  style={stylesUpdate.submitContainer}
-                  >
-                  <SubmitButton
-                  title="Cancel"
-                  onPress={() => handleCloseModalHoraire()}
-                  />
-                  <SubmitButton
-                  title="Submit"
-                  onPress={() => handleSubmitHoraire()}
-                  />
-                  </View>
-                  </View>
-                  </View>
-                  </Modal>
-                  </View>
-                  );
-                };
-                
-                export default HoraireShow;
-                
-                const stylesArray = StyleSheet.create({
-                  container: {
-                    borderColor: "gray",
-                    borderWidth: 2,
-    borderRadius: 10,
+                  : null}
+              </View>
+            </View>
+            <View style={stylesUpdate.submitContainer}>
+              <SubmitButton
+                title="Cancel"
+                onPress={() => handleCloseModalHoraire()}
+                typeAccount='entreprise'
+                />
+              <SubmitButton
+                title="Submit"
+                onPress={() => handleSubmitHoraire()}
+                typeAccount='entreprise'
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+export default HoraireShow;
+
+const stylesArray = StyleSheet.create({
+  container: {
+    borderLeftColor: "#E37322",
+    backgroundColor:"#ECE1E1",
+    borderLeftWidth: 3,
+    borderRadius: 20,
     marginBottom: 20,
+    paddingVertical: 12,
+    paddingHorizontal:6,
     width: "100%",
     position: "relative",
   },
@@ -261,6 +271,7 @@ const HoraireShow = ({data}) => {
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
+    width:"100%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -271,12 +282,14 @@ const HoraireShow = ({data}) => {
   },
   dayText: {
     fontWeight: "bold",
+    fontSize: 20,
   },
   timeContainerGlobal: {
-    width: "70%",
+    width: "60%",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     gap: 5,
+
   },
   timeContainer: {
     alignItems: "center",
@@ -290,23 +303,24 @@ const HoraireShow = ({data}) => {
   closeText: {
     width: "100%",
     textAlign: "center",
-    color: "red",
-    backgroundColor: "pink",
-    paddingVertical: 3,
+    color: "#B81F1F",
+    backgroundColor: "#F69B9B",
+    paddingVertical: 2,
+    fontSize:20,
   },
 });
 
 const stylesUpdate = StyleSheet.create({
   modal: {
     width: "100%",
-    backgroundColor: "rgba(216, 213, 214, 0.7)",
+    backgroundColor: "rgba(40, 36, 36, 0.9)",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   container: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "#242734",
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -321,47 +335,51 @@ const stylesUpdate = StyleSheet.create({
     elevation: 5,
     width: "90%",
   },
-  textInput:{
+  textInput: {
     paddingHorizontal: 5,
     paddingVertical: 2,
     width: "50%",
-    backgroundColor: "gray",
+    backgroundColor: "#BBBBC0",
     textAlign: "center",
   },
-  submitContainer:{
+  submitContainer: {
     flexDirection: "row",
     gap: 20,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 5,
-    
+
     marginTop: 15,
   },
-  inputContainer:{
-    width: "70%",
+  inputContainer: {
+    width: "60%",
     flexDirection: "row",
     justifyContent: "flex-end",
     gap: 5,
   },
-  Array:{
+  Array: {
     width: "100%",
-    borderTopColor: "black",
-    borderTopWidth: 2,
+    borderLeftColor: "#E37322",
+    backgroundColor: "#D9D9D9",
+    borderLeftWidth: 2,
     borderBottomColor: "black",
     borderBottomWidth: 2,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingVertical: 10,
-    marginTop:20,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal:4,
+    marginTop: 20,
   },
-  ligneContainer:{
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 5,
-    alignItems: "center",
-    justifyContent: "center",
+  ligneContainer: {
     width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical:10,
+    justifyContent: "center",
   },
-  
+  dayTextInput:{
+    fontWeight: "bold",
+    fontSize: 14,
+  }
 });

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, Pressable} from 'react-native'
 import React from 'react'
 
-const SubmitButton = ({title, onPress}) => {
+const SubmitButton = ({title, onPress, typeAccount}) => {
 
 
 
@@ -11,7 +11,7 @@ const SubmitButton = ({title, onPress}) => {
   }
 
   return (
-    <Pressable style={styles.container} onPress={onPress}>
+    <Pressable style={[styles.container,{backgroundColor:typeAccount= "entreprise"? "#E37322": "#4C7D9F", borderLeftColor: typeAccount ="entreprise"? "#4C7D9F" : "#E37322"}]} onPress={onPress}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
   )
@@ -21,16 +21,16 @@ export default SubmitButton
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFB800',
         height: 40,
         justifyContent: 'center',
+        borderLeftWidth:2,
         alignItems: 'center',
         borderRadius: 25,
         paddingHorizontal: 24,
         paddingVertical: 8,
     },
     text: {
-        color: '#FFE399',
+        color: '#ECE1E1',
         fontSize: 20,
         fontWeight: 'bold'
     }

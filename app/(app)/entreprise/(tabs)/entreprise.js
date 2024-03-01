@@ -10,20 +10,24 @@ import {
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import Logout from "../../../../components/Buttons/Logout";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Feather } from "@expo/vector-icons";
 import InputFake from "../../../../components/Input/InputFake-disable";
 import HoraireShow from "../../../../components/Profile/HoraireArray/HoraireShow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Avatar from "../../../../components/Profile/Avatar";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, ReduceMotion, Easing } from "react-native-reanimated";
 
 
 const entreprise = () => {
 
+  const rotateChevron = useSharedValue(contractNumberArrayOpen? "180deg": "0deg")
+
   const { userId, setEntreprise, entreprise } = useAuth();
 
   const [ data, setData ] = useState(null);
+  const [ contractNumberArrayOpen, setContractNumberArrayOpen] = useState(false)
 
 
   useEffect(()=>{
@@ -49,6 +53,16 @@ const entreprise = () => {
 
   // si time === 
 
+  const handleOpenContractArray = () => {
+    setContractNumberArrayOpen(!contractNumberArrayOpen)
+  }
+
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [{ 
+      rotate: withTiming(
+        rotateChevron.value)
+    }],
+  }));
 
 
   const handleChangePicture=()=>{
@@ -60,7 +74,7 @@ const entreprise = () => {
   return (
   !data? 
       ( 
-        <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
+        <SafeAreaView style={{ flex: 1, alignItems: "center",backgroundColor: "#242734" }}>
           <Text>Loading...</Text>
           <Logout />
 
@@ -68,7 +82,7 @@ const entreprise = () => {
       )
     :
       (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: "#242734"}}>
     <View style={{ flex: 1, alignItems: "center" }}>
       <View
         style={{
@@ -89,7 +103,40 @@ const entreprise = () => {
         <InputFake title="Address" value={data?.address} />
       </View>
         <HoraireShow data={data.horaires}/>
+
+
+
+        {/* CONTRACT SECTION */}
+        <View>
+          <Text style={{color:'#ECE1E1', fontSize:24, fontWeight:"bold" }}>Contracts</Text>
+          <View style={{backgroundColor:"white", width:"90%", height: 'auto',position:'relative'}}>
+            {data.contractNumber?.map((element, index) => {
+              <View style={{backgroundColor:"white"}}>
+                <FontAwesome name="file-o" size={24} color="black" /> 
+              </View>
+              })
+            }
+            <Pressable 
+              style={{
+                backgroundColor:"#E37322", 
+                borderLeftColor:"#4C7D9F", 
+                borderLeftWidth:2, 
+                padding:5,
+                position: "absolute",
+                bottom:0,
+                right:5,
+              }}
+              onPress={()=>{handleOpenContractArray()}}
+              >
+              <Animated.View style={{}}>
+                <Feather name="chevron-down" size={24} color="black" style={{transform:[{rotate: contractNumberArrayOpen? "180deg": "0deg"}]}}/>
+              </Animated.View>
+            </Pressable>
+          </View>
+        </View>
+          {/* CONTRACT SECTION */}
         <Logout />
+        <View style={{height:100}}/>
     </View>
     </ScrollView>
       )
@@ -104,4 +151,9 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 25,
   },
+  name:{
+    fontSize: 32,
+    color: "#EAC464",
+    fontWeight: "bold",
+  }
 });

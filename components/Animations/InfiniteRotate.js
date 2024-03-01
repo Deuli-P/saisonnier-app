@@ -21,7 +21,7 @@ const InfiniteRotate = () => {
        });
   return (
     <Animated.View style={ style} entering={FadeIn.duration(300).delay(150)} exiting={FadeOut.duration(300)} >
-      <AntDesign name="loading2" size={36} color="blue" style={{backgroundColor:"gray"}}/>
+      <AntDesign name="loading2" size={36} color="blue" style={{backgroundColor:"#EAC464"}}/>
     </Animated.View>
   )
 }
