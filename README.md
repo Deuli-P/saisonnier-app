@@ -8,8 +8,11 @@
 <p id="description">My final objective is to build a social networking application for seasonal workers connecting them and giving them easy access to discounts in their resorts from participating businesses. 
   The application must have features like tchatting, marketplace, cp-driving system, threads, QRcode, job offer...Etc.
 </p>
-  
-  
+
+ <h2> Design</h2>
+
+<a href="https://www.figma.com/file/v8yrGgAygumY3VDBKceqRk/Saisonnier-App?type=design&node-id=0%3A1&mode=design&t=QB3B8rDacEggxW13-1">![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)</a> (<= link)
+
 <h2>🧐 Features</h2>
 
 Here are some of the project's best features:
