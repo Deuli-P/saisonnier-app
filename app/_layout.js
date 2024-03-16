@@ -9,8 +9,9 @@ const Layout = () => {
 
   return (
     <>
-      <StatusBar barStyle={{color:"auto"}} />
+
       <AuthProvider >
+      <StatusBar barStyle={{color:"auto"}} />
         <Slot />
       </AuthProvider>
     </>

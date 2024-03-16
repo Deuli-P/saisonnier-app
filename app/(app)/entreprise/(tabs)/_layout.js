@@ -2,11 +2,11 @@ import { Tabs } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native'
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
-import Animated, { useSharedValue, withSpring, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { useSharedValue, withTiming, useAnimatedStyle, interpolate } from 'react-native-reanimated';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 
 const _layout = () => {
-  
 
   return (
     <Tabs
@@ -33,30 +33,33 @@ const _layout = () => {
             headerShown: false,
             tabBarIcon: ({ focused }) => {
 
-              const [ position ] = useState(useSharedValue(focused ?-20: 0))
-              const [ color ] = useState(useSharedValue(focused ?"#E37322": "transparent"))
+              const position = useSharedValue(focused ? true: false)
+
+
+
 
               const animatedStyle = useAnimatedStyle(()=>{
                 return{
-                  transform: [{translateY: position.value}],
-                  backgroundColor: color.value ,
+                  transform:[{translateY: position.value? -20: 0}],
+                  backgroundColor: position.value? "#E37322": "transparent"
                 }
               },)
               //  si focused est true alors carré devient opacity 1 et translateY 100
               return(
 
-                <Animated.View style={[styles.tabBarIconContainer,animatedStyle]}>
-                  {focused ?
-                      (
-                        <FontAwesome name="address-card" size={24} color="white" />
-                      )
-                    :
-                      (
-                        <FontAwesome name="vcard-o" size={24} color="white" />
-                      )
-                  }
-                  <Text style={{color:'white'}}>Profile</Text>
-                </Animated.View>
+
+                  <Animated.View style={[styles.tabBarIconContainer,animatedStyle]}>
+                    {focused ?
+                        (
+                          <FontAwesome name="address-card" size={24} color="white" />
+                          )
+                          :
+                          (
+                            <FontAwesome name="vcard-o" size={24} color="white" />
+                            )
+                          }
+                    <Text style={{color:'white'}}>Profile</Text>
+                  </Animated.View>
             )}
           }} 
           />
