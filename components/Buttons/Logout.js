@@ -10,10 +10,14 @@ const Logout = () => {
 
     const { logout } = useAuth();
   return (
-    <SubmitButton title="Logout" onPress={()=>logout()} />
+    <View style={{marginTop:30, marginBottom:100}}>
+      <SubmitButton title="Logout" onPress={()=>logout()} />
+    </View>
   )
 }
 
 export default Logout
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  
+})

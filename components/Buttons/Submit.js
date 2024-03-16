@@ -21,7 +21,7 @@ export default SubmitButton
 
 const styles = StyleSheet.create({
     container: {
-        height: 40,
+        height: 50,
         justifyContent: 'center',
         borderLeftWidth:2,
         alignItems: 'center',
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#ECE1E1',
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold'
     }
 })

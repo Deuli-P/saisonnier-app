@@ -18,16 +18,14 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Avatar from "../../../../components/Profile/Avatar";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, ReduceMotion, Easing } from "react-native-reanimated";
+import ContractManager from "../../../../components/Profile/ContractManager/ContractManager";
 
 
 const entreprise = () => {
 
-  const rotateChevron = useSharedValue(contractNumberArrayOpen? "180deg": "0deg")
-
   const { userId, setEntreprise, entreprise } = useAuth();
 
   const [ data, setData ] = useState(null);
-  const [ contractNumberArrayOpen, setContractNumberArrayOpen] = useState(false)
 
 
   useEffect(()=>{
@@ -52,17 +50,6 @@ const entreprise = () => {
   // si time.morning === "close" && time.afternoon === "close" alors affiché close surtoute la ligne une fois
 
   // si time === 
-
-  const handleOpenContractArray = () => {
-    setContractNumberArrayOpen(!contractNumberArrayOpen)
-  }
-
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{ 
-      rotate: withTiming(
-        rotateChevron.value)
-    }],
-  }));
 
 
   const handleChangePicture=()=>{
@@ -107,36 +94,12 @@ const entreprise = () => {
 
 
         {/* CONTRACT SECTION */}
-        <View>
+        <View style={{width:"100%", flexDirection:"column",height:"auto", alignItems:"center",paddingHorizontal: "5%"}}>
           <Text style={{color:'#ECE1E1', fontSize:24, fontWeight:"bold" }}>Contracts</Text>
-          <View style={{backgroundColor:"white", width:"90%", height: 'auto',position:'relative'}}>
-            {data.contractNumber?.map((element, index) => {
-              <View style={{backgroundColor:"white"}}>
-                <FontAwesome name="file-o" size={24} color="black" /> 
-              </View>
-              })
-            }
-            <Pressable 
-              style={{
-                backgroundColor:"#E37322", 
-                borderLeftColor:"#4C7D9F", 
-                borderLeftWidth:2, 
-                padding:5,
-                position: "absolute",
-                bottom:0,
-                right:5,
-              }}
-              onPress={()=>{handleOpenContractArray()}}
-              >
-              <Animated.View style={{}}>
-                <Feather name="chevron-down" size={24} color="black" style={{transform:[{rotate: contractNumberArrayOpen? "180deg": "0deg"}]}}/>
-              </Animated.View>
-            </Pressable>
-          </View>
+          <ContractManager />
         </View>
           {/* CONTRACT SECTION */}
-        <Logout />
-        <View style={{height:100}}/>
+          <Logout />
     </View>
     </ScrollView>
       )
