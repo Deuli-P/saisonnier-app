@@ -25,7 +25,7 @@ const login = () => {
 
   const { userId, setUser, setUserId, user, setAuthType, authType } = useAuth();
 
-  const [email, setEmail] = useState("drigdark.poubelle@gmail.com");
+  const [email, setEmail] = useState("utilisateur@gmail.com");
   const [password, setPassword] = useState("password");
   const [errorCode, setErrorCode] = useState();
   const router = useRouter();

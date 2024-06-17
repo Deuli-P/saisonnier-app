@@ -2,8 +2,6 @@ import { useRouter, useSegments, Redirect } from "expo-router";
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { jwtDecode } from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-import { Alert } from "react-native";
 
 
 
@@ -51,7 +49,6 @@ export const AuthProvider = ({ children }) => {
 
     // Clear token, userId, user et authType
     const logout = async() => {
-        console.log("[CONTEXT] logout");
         await AsyncStorage.removeItem("authToken");
         await AsyncStorage.removeItem("authType");
         setEntreprise(undefined);
@@ -59,16 +56,7 @@ export const AuthProvider = ({ children }) => {
         setUserId(undefined);
         setAuthType(undefined)
         router.push('onBoarding')
-        console.log(`///////////////////////////////////////////////////////
-        [CONTEXT] CHECKTOKEN:
-            authType: ${authType},
-            userID: ${userId},
-/////////////////////////////////////////////////////////////////////////////
-                `);
     };
-
-    // setUser
-
 
     // Check si le token est present
     const checkAuthToken = async () => {
@@ -81,18 +69,9 @@ export const AuthProvider = ({ children }) => {
                 const decoded = jwtDecode(value);
                 const userIdDecode = decoded.userId;
                 setUserId(userIdDecode);
-                console.log(`///////////////////////////////////////////////////////
-                [CONTEXT] CHECKTOKEN:
-                    type: ${newType},
-                    authType: ${authType},
-                    userIDDecode: ${userIdDecode},
-                    userID: ${userId},
-/////////////////////////////////////////////////////////////////////////////
-                        `);
             }
         }
         catch(err){
-            console.log("[CONTEXT] error checkToken",err);
             logout();
         }
     }
@@ -103,11 +82,9 @@ export const AuthProvider = ({ children }) => {
              checkAuthToken();
         }
         if(userId && authType === 'entreprise'){
-                console.log(`[CONTEXT USEEFFECT] AuthType est ${authType}`);
                 router.push("(app)/entreprise/entreprise")
             }
         if(userId && authType === "user" && !user ){
-                console.log(`[CONTEXT USEEFFECT] AuthType est ${authType}`);
                 router.push("(app)/user/profile")
 
             }

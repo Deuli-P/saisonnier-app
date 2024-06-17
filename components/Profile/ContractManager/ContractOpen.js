@@ -2,70 +2,37 @@ import { StyleSheet, Text, View, Pressable, TextInput, PanResponder } from 'reac
 import { useState } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import SwiperTrash from './SwiperTrash';
+import { useAuth } from '../../../app/context/AuthContext';
 
 
-const ContractOpen = ({data, setData}) => {
+const ContractOpen = ({onDelete, onAdd}) => {
+
+    const { entreprise } = useAuth()
 
     const [ newLine, setNewLine ] = useState(false)
 
-    const nextIndex = data.length
+    const [ newContrat, setNewContrat ] = useState('')
 
-    const [ newContract, setNewContract ] = useState({id:nextIndex, name:'test'})
-
-    const handleAdd = () => {
-        setNewLine(!newLine)
-        if(newLine){
-            console.log('annuler');
-        }
-        else{
-            console.log('ajouter');
-        }
-        // lorsque l'utilisateur appuie sur le bouton +,
-            // DONE une nouvelle ligne apparait avec un input pour ajouter un nouveau contrat
-            // l'utilisateur peut ajouter autant de contrat qu'il le souhaite
-            // DONE le boutn + devient - pour annuler
-        // valide en appyant sur le bouton "edit"
-            // le nouveau contrat est ajouté a la liste déjà existante dans l'app
-            // envoyé a l'api
-        //
-    }
+    const contrats = entreprise.contrats
 
     const handleSubmitNewContract = () => {
-        const newData= [...data];
-
+        const newData= newContrat
+        console.log('[ADD]');
+        onAdd(newData)
+        setNewContrat("")
         setNewLine(false)
-        newData.push(newContract)
-        setData(newData)
-        setNewContract({id:'', name:""})
-        // envoie le nouveau contrat a l'api
     }
-
-
-    const handleDeleteItem = (index) => {
-        // const updatedData = data.filter((item) => {
-        //     console.log(`[TASH] delete: ${item.id}  !== ${element.id}`)
-        //     item.id !== element.id});
-        const newData = [...data];
-
-        // Supprimez l'élément à l'index spécifié
-        newData.splice(index, 1);
-
-        // Mettez à jour l'état avec le nouveau tableau
-        setData(newData);
-        // setData(updatedData);
-      };
 
 
   return (
     <View style={styles.container}>
-    {data ? 
+    {contrats ? 
         (
-            data.map((element,index) => {
+            contrats?.map((element,index) => {
                 return(
                     <View style={[styles.contractContainerDisabled, {backgroundColor:"#767592"}]} key={index}>
-                        <Text style={styles.text}>{element.name}</Text>
-
-                            <SwiperTrash data={data} setData={setData} index={index}/>
+                        <Text style={styles.text}>{element}</Text>
+                            <SwiperTrash onDelete={onDelete} numero={element}/>
                     </View>
                 )
             })
@@ -76,7 +43,7 @@ const ContractOpen = ({data, setData}) => {
       {newLine ? 
         (
             <View style={[styles.contractContainerDisabled,{backgroundColor:'#BBBBC0'}]}>
-                <TextInput value={newContract} onChangeText={(text)=>setNewContract({id: nextIndex, name: text})} style={styles.inputText}/>
+                <TextInput value={newContrat} onChangeText={(text)=>setNewContrat(text)} style={styles.inputText}/>
                 <Pressable style={styles.pressable} onPress={()=>handleSubmitNewContract()}>
                     <FontAwesome name="edit" size={24} color="black" />
                 </Pressable>
@@ -85,7 +52,7 @@ const ContractOpen = ({data, setData}) => {
         :
         null
     }
-      <Pressable style={[styles.pressable,{backgroundColor:"#E37322"}]} onPress={()=>handleAdd()}>
+      <Pressable style={[styles.pressable,{backgroundColor:"#E37322"}]} onPress={()=>setNewLine(true)}>
         { newLine ? 
                 <FontAwesome name="minus" size={24} color="black" /> 
             :

@@ -10,14 +10,12 @@ import {
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import Logout from "../../../../components/Buttons/Logout";
-import { FontAwesome, Feather } from "@expo/vector-icons";
 import InputFake from "../../../../components/Input/InputFake-disable";
 import HoraireShow from "../../../../components/Profile/HoraireArray/HoraireShow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Avatar from "../../../../components/Profile/Avatar";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, ReduceMotion, Easing } from "react-native-reanimated";
 import ContractManager from "../../../../components/Profile/ContractManager/ContractManager";
 
 
@@ -29,11 +27,6 @@ const entreprise = () => {
 
 
   useEffect(()=>{
-    if(!data){
-      if(entreprise){
-        setData(entreprise)
-      }
-      else{  
           AsyncStorage.getItem("authToken").then(async(value) => {
           const token = value;
           const id = jwtDecode(token).userId;
@@ -41,15 +34,11 @@ const entreprise = () => {
           .then((res) => {
               setEntreprise(res.data.user);
               setData(res.data.user);
-        })
+          })
       })
-    }
-    }
-  },[data])
+  },[])
 
-  // si time.morning === "close" && time.afternoon === "close" alors affiché close surtoute la ligne une fois
 
-  // si time === 
 
 
   const handleChangePicture=()=>{
@@ -80,16 +69,14 @@ const entreprise = () => {
         }}
       >
        <Avatar accountType={"entreprise"} url={`https://localhost:8002/entreprise/profile/image/${userId}`} item={entreprise?.image? entreprise.image: data?.image? data.image : null} setDataImage={setData}/>
-        <Text stye={styles.name}>
-          {data ? data.name : "Nom de l'entreprise"}
-        </Text>
+        <InputFake title="Nom du commerce" value={entreprise?.name} />
       </View>
       <View style={{width:"80%", marginVertical:20, gap:15}}>
 
-        <InputFake title="Boss" value={data?.proprietaire} />
-        <InputFake title="Address" value={data?.address} />
+        <InputFake title="Boss" value={entreprise?.proprietaire} />
+        <InputFake title="Address" value={entreprise?.address} />
       </View>
-        <HoraireShow data={data.horaires}/>
+        <HoraireShow data={entreprise.horaires}/>
 
 
 
@@ -115,8 +102,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   name:{
-    fontSize: 32,
-    color: "#EAC464",
+    fontSize: 36,
+    color: "#767592",
     fontWeight: "bold",
-  }
+  },
 });

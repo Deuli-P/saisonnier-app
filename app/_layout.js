@@ -9,7 +9,6 @@ const Layout = () => {
 
   return (
     <>
-
       <AuthProvider >
       <StatusBar barStyle={{color:"auto"}} />
         <Slot />

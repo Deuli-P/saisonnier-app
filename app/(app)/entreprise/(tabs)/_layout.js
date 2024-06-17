@@ -20,7 +20,7 @@ const _layout = () => {
           height:72,
           elevation:0,
           backgroundColor: '#242734',
-          opacity: 0.9,
+          opacity: 1,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           borderTopWidth: 2

@@ -26,7 +26,7 @@ const H_SWIPE_RANGE = -BUTTON_WIDTH + 5 * BUTTON_PADDING  ;
   // text appear when button is swiped
 // when swiper completed, item is deleted
 
-const SwiperTrash = ({data, setData, index}) => {
+const SwiperTrash = ({onDelete, numero}) => {
     // Animated value for X translation
     const X = useSharedValue(0);
     // Toggled State
@@ -35,17 +35,15 @@ const SwiperTrash = ({data, setData, index}) => {
 
   const handleComplete = (isToggled) => {
     if (isToggled !== toggled) {
+      console.log("Swipe:",numero);
       setToggled(isToggled);
       handleDeleteItem();
     }
   };
 
 
-
   const handleDeleteItem = () => {
-      const newData = [...data];
-      newData.splice(index, 1);
-      setData(newData);
+      onDelete(numero)
   };
 
 

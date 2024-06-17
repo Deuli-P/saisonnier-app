@@ -84,16 +84,13 @@ const HoraireShow = ({ data }) => {
   };
 
   const handleSubmitHoraire = async () => {
-    console.log("submit horaire");
     try {
-      console.log("[HORAIRE] new horaire a submit:", newHoraires);
       await axios
         .post(
           `http://localhost:8002/entreprise/opening-hours/${userId}`,
           newHoraires
         )
         .then((res) => {
-          console.log("[HORAIRE] Reponse sbumit horaire est:", res.status);
           setHoraires(newHoraires);
           setOpenModalHoraire(false);
         });

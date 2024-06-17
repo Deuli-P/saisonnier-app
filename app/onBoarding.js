@@ -20,7 +20,7 @@ const onBoarding = () => {
   }
 
   const handleUser=()=> {
-    router.push("auth/(user)");
+    router.push("auth/(user)/login");
   }
 
   return (

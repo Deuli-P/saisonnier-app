@@ -21,34 +21,69 @@ const cardById = () => {
   }, [params])
 
   return (
-    <SafeAreaView style={{alignItems:"center",backgroundColor: "#242734"}}>
-      <View style={{marginTop: 50}}>
-        <Image source={{uri: params.image}} style={{width: 200, height: 200, borderRadius: 10}} />
-      </View>
-      <View style={{marginTop:50, gap:20}}>
-          <View style={{flexDirection:"row", gap:10}}>
-          <Text>Name:</Text>
-          <Text>{params.firstname} {params.lastname}</Text>
+    <SafeAreaView style={styles.global}>
+      <View style={styles.container}>
+        <View style={{height: 3, width: "40%", backgroundColor:'white',marginTop:15,borderRadius:20}}></View>
+        <View style={{marginTop: 50}}>
+          <Image source={{uri: params.image}} style={styles.image} />
         </View>
-          <View style={{flexDirection:"row", gap:10}}>
-          <Text>Entreprise:</Text>
-          <Text>{params.entreprise? params.entreprise: "Entreprise ici"}</Text>
+        <View style={{marginTop:50, gap:20}}>
+            <View style={styles.infoContainer}>
+            <Text style={styles.title}>Name</Text>
+            <Text style={styles.textContainer}>{params.firstname} {params.lastname}</Text>
+          </View>
+            <View style={styles.infoContainer}>
+            <Text style={styles.title}>Entreprise</Text>
+            <Text style={styles.textContainer}>{params.entreprise? params.entreprise: "Entreprise ici"}</Text>
+          </View>
         </View>
-          <View style={{flexDirection:"row", gap:10}}>
-          <Text>Adresse:</Text>
-          <Text>{params.address? params.address: "Adresse ici"}</Text>
-        </View>
-      </View>
 
-      <Pressable onPress={()=>{handleBackScanner()}}
-                 style={{justifyContent:"center", alignItems:"center", marginTop:20, backgroundColor:"#ff9d2f", padding:10, borderRadius:50}}
-      >
-        <AntDesign name="close" size={24} color="black" />
-      </Pressable>
+        <Pressable onPress={()=>{handleBackScanner()}}
+                  style={{justifyContent:"center", alignItems:"center", marginTop:60, backgroundColor:"#ff9d2f", padding:15, borderRadius:50}}
+        >
+          <AntDesign name="close" size={24} color="black" />
+        </Pressable>
+      </View>
     </SafeAreaView>
   )
 }
 
 export default cardById
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  global:{
+    backgroundColor: "black",
+    paddingTop:20,
+  },
+  container:{
+    width:'100%',
+    height:'100%',
+    backgroundColor: "#242734",
+    alignItems:"center",
+    justifyContent:'beteween',
+  },
+  image:{
+    width: 200,
+    height: 200,
+    borderRadius: 10
+  },
+  infoContainer:{
+    flexDirection:"col",
+    alignItems:"center",
+    gap: 5,
+  },
+  textContainer:{
+    backgroundColor: "#BBBBC0",
+    paddingVertical: 6,
+    paddingHorizontal: 24,
+    borderRadius: 50,
+    color: "#242734",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  title:{
+    color:"#E6DCCD",
+    fontWeight: "bold",
+    fontSize: 16,
+  }
+})

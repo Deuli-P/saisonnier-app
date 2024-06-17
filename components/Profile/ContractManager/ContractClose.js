@@ -7,7 +7,6 @@ const ContractClose = ({data}) => {
 
     // pouquoi cela n'affiche pas les enfants?
 
-    console.log("[CONTRACTCLOSE] Array:",data);
   return (
     data ?
                 (

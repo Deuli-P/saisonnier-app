@@ -15,7 +15,7 @@ import Header from '../components/Header/header';
 const register = () => {
 
 
-    const [ email, setEmail ] = useState('drigdark.poubelle@gmail.com');
+    const [ email, setEmail ] = useState('utilisateur@gmail.com');
     const [ password, setPassword ] = useState('password');
     const [ confirmPassword, setConfirmPassword ] = useState('password');
     const [ firstname, setFirstname ] = useState('Test');

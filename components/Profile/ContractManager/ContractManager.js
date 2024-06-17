@@ -4,17 +4,19 @@ import { Feather } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, ReduceMotion, Easing } from "react-native-reanimated";
 import ContractClose from './ContractClose';
 import ContractOpen from './ContractOpen';
+import { useAuth } from '../../../app/context/AuthContext';
 
 
 const ContractManager = () => {
 
+    const { userId, entreprise, setEntreprise } = useAuth()
+
     const [ childrenTest, setChildrenTest ] = useState(
         [
-            {id:1,name:"11339D2"},
-            {id:2 ,name:"2IQAKDE30R33"},
-            {id:3 ,name:"DIEEO3E"},
-            {id:4 ,name:"4DEZDK2"},
-           {id:4,name: "5nknDK3"}
+            "EEOFFIRFJ33044",
+            "ZRF99DK3°33",
+            "DOEFJZEFZEOFK",
+            "ODFPZEFZEF2"
         ])
 
     const [ contractNumberArrayOpen, setContractNumberArrayOpen] = useState(true)
@@ -26,6 +28,29 @@ const ContractManager = () => {
     }
 
 
+
+    const onDelete = async (numero)=> {
+        const sending = await fetch(`http://localhost:8002/entreprise/contrat/${userId}/${numero}`,{
+            method:"DELETE"
+        })
+
+        const response = await sending.json()
+        if(response.ok){
+            console.log("Supression confirmé");
+        }
+        else{
+            console.log("Suppression non valide");
+        }
+  }
+
+  const onAdd=async(numero)=> {
+        // envoie le nouveau contrat a l'api
+        await fetch(`http://localhost:8002/entreprise/contrat/${userId}/${numero}`,{
+        method:"POST"})
+        .then((res)=> res.json())
+        .then((response)=> console.log(response))
+  }
+
     const animatedStyles = useAnimatedStyle(() => ({
         transform: [{ 
           rotate: withTiming(
@@ -33,14 +58,15 @@ const ContractManager = () => {
         }],
       }));
     
+
     
 
     return (
         <View style={styles.container}>
            { !contractNumberArrayOpen ?
-                    <ContractClose data={childrenTest}/>
+                    <ContractClose data={entreprise.contrats}/>
                 :
-                    <ContractOpen  data={childrenTest} setData={setChildrenTest}/>
+                    <ContractOpen  onAdd={onAdd} onDelete={onDelete} />
             }
         <Pressable 
                 style={styles.pressable}
